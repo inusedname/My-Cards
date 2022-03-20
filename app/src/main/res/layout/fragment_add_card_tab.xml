@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    tools:context=".fragments.addCardTab">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20sp">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Short Name"
+                    android:textAlignment="viewStart" />
+
+                <EditText
+                    android:id="@+id/shortNameEditText_card"
+                    android:layout_width="@dimen/text_field_width_normal"
+                    android:layout_height="@dimen/text_field_height"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_input"
+                    android:ems="10"
+                    android:hint="Short Name"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="10dp" />
+
+
+                <TextView
+                    android:id="@+id/errorTextView_shortName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textColor="#FF1100" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Full Name"
+                    android:textAlignment="viewStart" />
+
+                <EditText
+                    android:id="@+id/fullNameEditText_card"
+                    android:layout_width="@dimen/text_field_width_long"
+                    android:layout_height="@dimen/text_field_height"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_input"
+                    android:ems="10"
+                    android:hint="Full Name"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="10dp" />
+
+                <TextView
+                    android:id="@+id/errorTextView_fullName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textColor="#FF0000" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ID"
+                    android:textAlignment="viewStart" />
+
+                <EditText
+                    android:id="@+id/idEditText_card"
+                    android:layout_width="@dimen/text_field_width_long"
+                    android:layout_height="@dimen/text_field_height"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_input"
+                    android:ems="10"
+                    android:hint="ID"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="10dp" />
+
+                <TextView
+                    android:id="@+id/errorTextView_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textColor="#FF1100" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Issuer"
+                    android:textAlignment="viewStart" />
+
+                <EditText
+                    android:id="@+id/issuerEditText_card"
+                    android:layout_width="@dimen/text_field_width_long"
+                    android:layout_height="@dimen/text_field_height"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_input"
+                    android:ems="10"
+                    android:hint="Issuer"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="10dp" />
+
+                <TextView
+                    android:id="@+id/errorTextView_issuer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textColor="#FF0000" />
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Custom Field (Text)" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/customStringRecycler_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="20dp"></androidx.recyclerview.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Custom Field (Date)" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/customDateRecycler_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="50dp" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="700dp"
+            android:clickable="true"
+            android:src="@android:drawable/ic_input_add" />
+    </RelativeLayout>
+
+</FrameLayout>

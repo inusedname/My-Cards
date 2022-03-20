@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:layout_editor_absoluteX="-4dp"
+    tools:layout_editor_absoluteY="7dp">
+
+    <EditText
+        android:id="@+id/labelTextField"
+        android:layout_width="@dimen/text_field_width_normal"
+        android:layout_height="@dimen/text_field_height"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/custom_input"
+        android:ems="10"
+        android:hint="Label"
+        android:inputType="textPersonName"
+        android:paddingLeft="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/valueTextField"
+        android:layout_width="@dimen/text_field_width_long"
+        android:layout_height="@dimen/text_field_height"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/custom_input"
+        android:hint="Value"
+        android:inputType="textPersonName"
+        android:paddingLeft="10dp"
+        app:layout_constraintStart_toStartOf="@+id/labelTextField"
+        app:layout_constraintTop_toBottomOf="@+id/labelTextField" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
