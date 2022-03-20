@@ -1,6 +1,8 @@
 package com.example.mycards.controller;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +23,12 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
         mInflater = LayoutInflater.from(context);
         this.mItems = items;
     }
-    public void updateList(List<Pair<String,String>> pairs) {
-        this.mItems = pairs;
-        notifyDataSetChanged();
-    }
 
+    public void updateList(Pair<String,String> pair) {
+        this.mItems.add(pair);
+        System.out.println("Recently Added: " + (mItems.size() - 1));
+        notifyItemInserted(mItems.size() - 1);
+    }
 
     @NonNull
     @Override
@@ -44,12 +47,37 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
             holder.label.setText(label);
             holder.field.setText(field);
         }
+        if (holder.getAdapterPosition() == mItems.size() - 1)
+        {
+            holder.field.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if (charSequence.length() == 1 && holder.getAdapterPosition() == mItems.size() - 1)
+                    {
+                        updateList(new Pair<String,String>("",""));
+//                        holder.field.requestFocus();
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+        }
     }
     @Override
     public int getItemCount() {
         return mItems.size();
     }
-    class DataViewHolder extends RecyclerView.ViewHolder{
+
+
+    static class DataViewHolder extends RecyclerView.ViewHolder{
         EditText label;
         EditText field;
         public DataViewHolder(@NonNull View itemView) {
@@ -59,4 +87,5 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
         }
 
     }
+
 }

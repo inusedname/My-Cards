@@ -2,8 +2,6 @@ package com.example.mycards;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
@@ -12,7 +10,7 @@ import com.example.mycards.controller.AddMSPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-public class AddMSActivity extends AppCompatActivity {
+public class AddMSActivity extends AppCompatActivity{
 
     TabLayout mTabLayout;
     ViewPager2 mViewPager;

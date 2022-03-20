@@ -1,11 +1,9 @@
 package com.example.mycards.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,13 +20,14 @@ import com.example.mycards.R;
 import com.example.mycards.controller.CustomDateRecyclerAdapter;
 import com.example.mycards.controller.CustomStringRecyclerAdapter;
 import com.example.mycards.controller.MembershipController;
+import com.example.mycards.controller.OnRecyclerViewItemFocusListener;
 import com.example.mycards.controller.exceptions.StringInputFail;
 import com.example.mycards.model.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class addCardTab extends Fragment {
+public class addCardTab extends Fragment{
 
     boolean isOK1, isOK2,isOK3, isOK4;
     private RecyclerView customStringList;
@@ -38,6 +37,7 @@ public class addCardTab extends Fragment {
     private List<Pair<String,String>> stringList = new ArrayList<>();
     private TextView error_sn, error_fn, error_id, error_is;
     private EditText shortName, fullName, id, issuer;
+    private View v;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,32 +47,35 @@ public class addCardTab extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_add_card_tab, container,false);
+        v = inflater.inflate(R.layout.fragment_add_card_tab, container,false);
+        return v;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        customStringList = view.findViewById(R.id.customStringRecycler_card);
         error_sn = view.findViewById(R.id.errorTextView_shortName);
         error_fn = view.findViewById(R.id.errorTextView_fullName);
         error_id = view.findViewById(R.id.errorTextView_id);
         error_is = view.findViewById(R.id.errorTextView_issuer);
-
         error_sn.setText("");
         error_fn.setText("");
         error_id.setText("");
         error_is.setText("");
+
         shortName = view.findViewById(R.id.shortNameEditText_card);
         fullName = view.findViewById(R.id.fullNameEditText_card);
         id = view.findViewById(R.id.idEditText_card);
         issuer = view.findViewById(R.id.issuerEditText_card);
 
+        customStringList = view.findViewById(R.id.customStringRecycler_card);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         customStringList.setLayoutManager(layoutManager);
+        customStringList.setNestedScrollingEnabled(false);
         customStringList.setHasFixedSize(true);
         stringAdapter = new CustomStringRecyclerAdapter(getContext(),stringList);
         customStringList.setAdapter(stringAdapter);
+
 
         shortName.addTextChangedListener(new TextWatcher() {
             @Override
