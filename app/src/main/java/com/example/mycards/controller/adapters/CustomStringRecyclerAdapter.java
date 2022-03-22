@@ -1,4 +1,4 @@
-package com.example.mycards.controller;
+package com.example.mycards.controller.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

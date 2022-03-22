@@ -1,4 +1,4 @@
-package com.example.mycards.controller;
+package com.example.mycards.controller.adapters;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -15,11 +15,11 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mycards.R;
+import com.example.mycards.controller.util.ItemClickListener;
 import com.example.mycards.controller.util.MyDatePicker;
 import com.example.mycards.model.Pair;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRecyclerAdapter.DataViewHolder> {
