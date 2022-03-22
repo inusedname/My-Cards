@@ -1,8 +1,6 @@
 package com.example.mycards.controller;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,14 +25,15 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
     public void updateList(Pair<String,String> pair) {
         this.mItems.add(pair);
         System.out.println("Recently Added: " + (mItems.size() - 1));
-        notifyItemInserted(mItems.size() - 1);
+        //notifyItemInserted(mItems.size() - 1);
+        notifyDataSetChanged();
     }
 
     @NonNull
     @Override
     public DataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView;
-        itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.no_label_text_field, parent,false);
+        itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_label_text_input, parent,false);
         return new DataViewHolder(itemView);
     }
 
@@ -47,29 +46,28 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
             holder.label.setText(label);
             holder.field.setText(field);
         }
-        if (holder.getAdapterPosition() == mItems.size() - 1)
+        else
         {
-            holder.field.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    if (charSequence.length() == 1 && holder.getAdapterPosition() == mItems.size() - 1)
-                    {
-                        updateList(new Pair<String,String>("",""));
-//                        holder.field.requestFocus();
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
-            });
+            holder.label.setText("");
+            holder.field.setText("");
         }
+        holder.field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    mItems.get(position).setValue(holder.field.getText().toString());
+                }
+            }
+        });
+        holder.label.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    mItems.get(position).setKey(holder.label.getText().toString());
+                }
+            }
+        });
+
     }
     @Override
     public int getItemCount() {

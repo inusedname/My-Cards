@@ -37,7 +37,7 @@ public class MembershipController {
     static public void checkID(String id) throws StringInputFail {
         if (id.length() == 0)
             throw new StringInputFail("Không được để trống");
-        if (!id.matches(String.valueOf("[a-zA-Z0-9]+")))
+        if (!id.matches(String.valueOf("[a-zA-Z0-9- ]+")))
             throw new StringInputFail("Tên chỉ chứa các chữ cái và số.");
     }
 }

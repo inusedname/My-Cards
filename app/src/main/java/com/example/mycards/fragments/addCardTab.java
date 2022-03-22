@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -20,28 +21,32 @@ import com.example.mycards.R;
 import com.example.mycards.controller.CustomDateRecyclerAdapter;
 import com.example.mycards.controller.CustomStringRecyclerAdapter;
 import com.example.mycards.controller.MembershipController;
-import com.example.mycards.controller.OnRecyclerViewItemFocusListener;
 import com.example.mycards.controller.exceptions.StringInputFail;
 import com.example.mycards.model.Pair;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class addCardTab extends Fragment{
 
-    boolean isOK1, isOK2,isOK3, isOK4;
+    private View v;
     private RecyclerView customStringList;
     private RecyclerView customDateList;
     private CustomStringRecyclerAdapter stringAdapter;
     private CustomDateRecyclerAdapter dateAdapter;
-    private List<Pair<String,String>> stringList = new ArrayList<>();
+
+    boolean isOK1, isOK2,isOK3, isOK4;
     private TextView error_sn, error_fn, error_id, error_is;
     private EditText shortName, fullName, id, issuer;
-    private View v;
+    private List<Pair<String,String>> stringList = new ArrayList<>();
+    private List<Pair<String, LocalDate>> dateList = new ArrayList<>();
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         stringList.add(new Pair<String,String>("",""));
+        dateList.add(new Pair<String, LocalDate>("", null));
     }
 
     @Nullable
@@ -67,40 +72,61 @@ public class addCardTab extends Fragment{
         fullName = view.findViewById(R.id.fullNameEditText_card);
         id = view.findViewById(R.id.idEditText_card);
         issuer = view.findViewById(R.id.issuerEditText_card);
+        Button addCustomStringBt = view.findViewById(R.id.addCustomStringBt);
+        Button addCustomDateBt = view.findViewById(R.id.addCustomDateBt);
 
-        customStringList = view.findViewById(R.id.customStringRecycler_card);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        customStringList.setLayoutManager(layoutManager);
+        fullName.setVisibility(View.GONE);
+        customStringList = view.findViewById(R.id.customStringRecyclerView);
+        customStringList.setLayoutManager(new LinearLayoutManager(getContext()));
         customStringList.setNestedScrollingEnabled(false);
+        customStringList.setFocusable(false);
         customStringList.setHasFixedSize(true);
         stringAdapter = new CustomStringRecyclerAdapter(getContext(),stringList);
         customStringList.setAdapter(stringAdapter);
 
+        customDateList = view.findViewById(R.id.customDateRecyclerView);
+        customDateList.setLayoutManager(new LinearLayoutManager(getContext()));
+        customDateList.setNestedScrollingEnabled(false);
+        customDateList.setFocusable(false);
+        customDateList.setHasFixedSize(true);
+        dateAdapter = new CustomDateRecyclerAdapter(getContext(),dateList);
+        customDateList.setAdapter(dateAdapter);
 
-        shortName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                isOK1 = false;
-                try {
-                    MembershipController.checkShortName(charSequence.toString());
-                    error_sn.setText("");
-                    isOK1 = true;
-                }
-                catch (StringInputFail stringInputFail) {
-                    error_sn.setText(stringInputFail.getMsg());
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
+        addCustomStringBt.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v) {
+                stringAdapter.updateList(new Pair<>("",""));
             }
         });
+
+        addCustomDateBt.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               dateAdapter.updateList(new Pair<>("", null));
+           }
+       });
+                shortName.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        isOK1 = false;
+                        try {
+                            MembershipController.checkShortName(charSequence.toString());
+                            error_sn.setText("");
+                            isOK1 = true;
+                        } catch (StringInputFail stringInputFail) {
+                            error_sn.setText(stringInputFail.getMsg());
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+
+                    }
+                });
         fullName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
