@@ -1,17 +1,27 @@
 package com.example.mycards.model;
 
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MembershipBase {
+public class MembershipBase implements Serializable {
     String membershipID = null;
     String systemID = null;
     String shortName = null;
     String fullName = null;
     String issuer = null;
     List<Pair<String,String>> textProperties = new ArrayList<>();
-    List<Pair<String, Date>> dateProperties = new ArrayList<>();
+    List<Pair<String, LocalDate>> dateProperties = new ArrayList<>();
+
+    public void setTextProperties(List<Pair<String, String>> textProperties) {
+        this.textProperties = textProperties;
+    }
+
+    public void setDateProperties(List<Pair<String, LocalDate>> dateProperties) {
+        this.dateProperties = dateProperties;
+    }
 
     public String getShortName() {
         return shortName;
@@ -76,10 +86,10 @@ public class MembershipBase {
             }
         }
     }
-    public void addDateProperty(String key, Date value){
+    public void addDateProperty(String key, LocalDate value){
         dateProperties.add(new Pair<>(key,value));
     }
-    public void editDateProperty(String key, Date newValue){
+    public void editDateProperty(String key, LocalDate newValue){
         for (int i = 0; i < textProperties.size();i++)
         {
             if (dateProperties.get(i).getKey().equals(key))

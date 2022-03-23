@@ -1,43 +1,52 @@
 package com.example.mycards.controller;
 
-import com.example.mycards.R;
-import com.example.mycards.controller.exceptions.StringInputFail;
-import com.example.mycards.model.Card;
-import com.example.mycards.model.MembershipBase;
+import android.content.Context;
 
+import com.example.mycards.MainActivity;
+import com.example.mycards.controller.util.FileLoader;
+import com.example.mycards.model.Card;
+import com.example.mycards.model.Coupon;
+import com.example.mycards.model.Pair;
+import com.example.mycards.model.Subscription;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MembershipController {
-    static public void checkShortName(String shortName) throws StringInputFail
+    private final List<Subscription> mSubList;
+    private final List<Card> mCardList;
+    private final List<Coupon> mCouponList;
+
+    public MembershipController(Context context)
     {
-        if (shortName.length() == 0)
-            throw new StringInputFail("Không được để trống");
-        if (shortName.length() > 8)
-            throw new StringInputFail("Tên không được dài hơn 8 ký tự");
-        if (!shortName.matches(String.valueOf("[a-zA-Z0-9 \\u0080-\\u9fff]+")))
-            throw new StringInputFail("Tên chỉ chứa các chữ cái và số");
+        // Load user data
+        mCardList = FileLoader.loadFromFile(context, "card_list.dat");
+        mCouponList = FileLoader.loadFromFile(context, "coupon_list.dat");
+        mSubList = FileLoader.loadFromFile(context, "subscription_list.dat");
     }
-    static public void checkFullName(String fullName) throws StringInputFail
+    public void addCard(String shortName, String fullName, String id, String issuer, List<Pair<String,String>> customString, List<Pair<String, LocalDate>> customDate)
     {
-        if (fullName.length() == 0)
-            throw new StringInputFail("Không được để trống");
-        if (fullName.length() > 16)
-            throw new StringInputFail("Tên quá dài.");
-        if(!fullName.matches(String.valueOf("[a-zA-Z0-9 \\u0080-\\u9fff]+")))
-            throw new StringInputFail("Tên chỉ chứa các chữ cái và số");
+        mCardList.add(new Card(shortName, fullName, id, issuer, customString, customDate));
     }
-    static public void checkIssuer(String issuer) throws StringInputFail {
-        if (issuer.length() == 0)
-            throw new StringInputFail("Không được để trống");
-        if (issuer.length() > 16)
-            throw new StringInputFail("Tên quá dài.");
-        if (!issuer.matches(String.valueOf("[a-zA-Z \\u0080-\\u9fff]+")))
-            throw new StringInputFail("Tên chỉ chứa các chữ cái.");
+    public void addCard(Card card)
+    {
+        mCardList.add(card);
     }
-    static public void checkID(String id) throws StringInputFail {
-        if (id.length() == 0)
-            throw new StringInputFail("Không được để trống");
-        if (!id.matches(String.valueOf("[a-zA-Z0-9- ]+")))
-            throw new StringInputFail("Tên chỉ chứa các chữ cái và số.");
+    public void addCoupon(String shortName, String fullName, String id, String issuer, List<Pair<String,String>> customString, List<Pair<String, LocalDate>> customDate, LocalDate expDate)
+    {
+        mCouponList.add(new Coupon(shortName, fullName, id, issuer, customString, customDate,  expDate));
+    }
+    public void addCoupon(Coupon coupon)
+    {
+        mCouponList.add(coupon);
+    }
+    public void addSubscription(String shortName, String fullName, String id, String issuer, List<Pair<String,String>> customString, List<Pair<String, LocalDate>> customDate, LocalDate renewDate)
+    {
+        mSubList.add(new Subscription(shortName, fullName, id, issuer, customString, customDate, renewDate));
+    }
+    public void addSubscription(Subscription sub)
+    {
+        mSubList.add(sub);
     }
 }

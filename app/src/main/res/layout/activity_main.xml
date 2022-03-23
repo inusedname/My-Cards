@@ -18,7 +18,7 @@
         app:layout_constraintVertical_bias="0.83" />
 
     <Button
-        android:id="@+id/view_all_button"
+        android:id="@+id/allMembershipButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ALL"

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,12 +12,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mycards.controller.adapters.CustomDateRecyclerAdapter;
 import com.example.mycards.controller.adapters.CustomStringRecyclerAdapter;
-import com.example.mycards.controller.MembershipController;
 import com.example.mycards.controller.exceptions.StringInputFail;
+import com.example.mycards.controller.util.NameValidator;
+import com.example.mycards.model.Card;
+import com.example.mycards.model.Coupon;
+import com.example.mycards.model.MembershipBase;
 import com.example.mycards.model.Pair;
+import com.example.mycards.model.Subscription;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,8 +38,15 @@ public class AddMSActivity extends AppCompatActivity{
 
     boolean isOK1, isOK2,isOK3, isOK4;
     private EditText shortName, fullName, id, issuer;
-    private List<Pair<String,String>> stringList = new ArrayList<>();
-    private List<Pair<String, LocalDate>> dateList = new ArrayList<>();
+    private final List<Pair<String,String>> stringList = new ArrayList<>();
+    private final List<Pair<String, LocalDate>> dateList = new ArrayList<>();
+
+    private LocalDate couponExpirationDate;
+    private LocalDate subRenewDate;
+
+    private int membershipType;
+
+    FloatingActionButton addFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +64,7 @@ public class AddMSActivity extends AppCompatActivity{
         error_fn.setText("");
         error_id.setText("");
         error_is.setText("");
+        isOK1 = isOK2 = isOK3 = isOK4 = false;
 
         shortName = findViewById(R.id.shortNameEditText_card);
         fullName = findViewById(R.id.fullNameEditText_card);
@@ -57,6 +72,8 @@ public class AddMSActivity extends AppCompatActivity{
         issuer = findViewById(R.id.issuerEditText_card);
         Button addCustomStringBt = findViewById(R.id.addCustomStringBt);
         Button addCustomDateBt = findViewById(R.id.addCustomDateBt);
+        addFab = findViewById(R.id.addFab);
+        membershipType = 0;
 
         customStringList = findViewById(R.id.customStringRecyclerView);
         customStringList.setLayoutManager(new LinearLayoutManager(this));
@@ -74,16 +91,35 @@ public class AddMSActivity extends AppCompatActivity{
         dateAdapter = new CustomDateRecyclerAdapter(this,dateList);
         customDateList.setAdapter(dateAdapter);
 
-        addCustomStringBt.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v) {
-                stringAdapter.updateList(new Pair<>("",""));
-            }
-        });
 
-        addCustomDateBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dateAdapter.updateList(new Pair<>("", null));
+        addCustomStringBt.setOnClickListener(view -> stringAdapter.updateList(new Pair<>("","")));
+        addCustomDateBt.setOnClickListener(view -> dateAdapter.updateList(new Pair<>("", null)));
+
+        addFab.setOnClickListener(view -> {
+            cleanEmptyList();
+            if (!isOK1 || !isOK2 || !isOK3 || !isOK4)
+            {
+                Toast.makeText(AddMSActivity.this, "Không tạo được thẻ mới do có lỗi.", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                MembershipBase membershipData;
+                switch (membershipType) {
+                    case 1:
+                        membershipData = new Coupon(shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringList, dateList, couponExpirationDate);
+                        break;
+                    case 2:
+                        membershipData = new Subscription(shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringList, dateList, subRenewDate);
+                        break;
+                    default:
+                        membershipData = new Card(shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringList, dateList);
+                        break;
+                }
+                Intent pushIntent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("new_membership", membershipData);
+                pushIntent.putExtras(bundle);
+                setResult(RESULT_OK, pushIntent);
+                finish();
             }
         });
         shortName.addTextChangedListener(new TextWatcher() {
@@ -96,7 +132,7 @@ public class AddMSActivity extends AppCompatActivity{
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 isOK1 = false;
                 try {
-                    MembershipController.checkShortName(charSequence.toString());
+                    NameValidator.checkShortName(charSequence.toString());
                     error_sn.setText("");
                     isOK1 = true;
                 } catch (StringInputFail stringInputFail) {
@@ -119,7 +155,7 @@ public class AddMSActivity extends AppCompatActivity{
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 isOK2 = false;
                 try {
-                    MembershipController.checkFullName(charSequence.toString());
+                    NameValidator.checkFullName(charSequence.toString());
                     error_fn.setText("");
                     isOK2 = true;
                 }
@@ -143,7 +179,7 @@ public class AddMSActivity extends AppCompatActivity{
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 isOK3 = false;
                 try {
-                    MembershipController.checkIssuer(charSequence.toString());
+                    NameValidator.checkIssuer(charSequence.toString());
                     error_is.setText("");
                     isOK3 = true;
                 }
@@ -165,7 +201,7 @@ public class AddMSActivity extends AppCompatActivity{
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 isOK4 = false;
                 try {
-                    MembershipController.checkID(charSequence.toString());
+                    NameValidator.checkStringID(charSequence.toString());
                     error_id.setText("");
                     isOK4 = true;
                 }
@@ -177,5 +213,18 @@ public class AddMSActivity extends AppCompatActivity{
             @Override
             public void afterTextChanged(Editable editable) {}
         });
+    }
+    public void cleanEmptyList()
+    {
+        for (Pair<String, String> pair: stringList)
+        {
+            if (pair.getKey().isEmpty())
+                stringList.remove(pair);
+        }
+        for (Pair<String, LocalDate> pair: dateList)
+        {
+            if (pair.getKey().isEmpty())
+                dateList.remove(pair);
+        }
     }
 }
