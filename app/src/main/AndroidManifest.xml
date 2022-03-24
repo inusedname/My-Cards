@@ -3,19 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mycards">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="false"/>
+        android:required="false" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
         android:hardwareAccelerated="true"
+        android:icon="@mipmap/my_cards"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/my_cards_round"
+        android:supportsRtl="true"
         android:theme="@style/Theme.MyCards">
+        <activity
+            android:name=".ViewCardActivity"
+            android:exported="false" />
         <activity
             android:name=".AddMSActivity"
             android:exported="false" />

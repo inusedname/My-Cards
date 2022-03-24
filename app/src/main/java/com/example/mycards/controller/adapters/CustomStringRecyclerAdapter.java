@@ -12,16 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mycards.R;
 import com.example.mycards.model.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStringRecyclerAdapter.DataViewHolder> {
     LayoutInflater mInflater;
-    List<Pair<String,String>> mItems;
+    List<Pair<String,String>> mItems = new ArrayList<>();
     public CustomStringRecyclerAdapter(Context context, List<Pair<String,String>> items) {
         mInflater = LayoutInflater.from(context);
-        this.mItems = items;
+        this.mItems.clear();
+        this.mItems.addAll(items);
     }
 
+    public List<Pair<String,String>> getList(){
+        return mItems;
+    }
     public void updateList(Pair<String,String> pair) {
         this.mItems.add(pair);
         System.out.println("Recently Added: " + (mItems.size() - 1));
@@ -41,16 +46,9 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
     public void onBindViewHolder(@NonNull CustomStringRecyclerAdapter.DataViewHolder holder, int position) {
         String label = mItems.get(position).getKey();
         String field = mItems.get(position).getValue();
-        if (!label.isEmpty())
-        {
-            holder.label.setText(label);
-            holder.field.setText(field);
-        }
-        else
-        {
-            holder.label.setText("");
-            holder.field.setText("");
-        }
+        holder.label.setText(label);
+        holder.field.setText(field);
+
         holder.field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {

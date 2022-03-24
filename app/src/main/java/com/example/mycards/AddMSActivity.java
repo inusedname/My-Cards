@@ -1,22 +1,33 @@
 package com.example.mycards;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mycards.controller.adapters.CustomDateRecyclerAdapter;
 import com.example.mycards.controller.adapters.CustomStringRecyclerAdapter;
+import com.example.mycards.controller.adapters.MyListAdapter;
 import com.example.mycards.controller.exceptions.StringInputFail;
+import com.example.mycards.controller.util.MyDatePicker;
 import com.example.mycards.controller.util.NameValidator;
 import com.example.mycards.model.Card;
 import com.example.mycards.model.Coupon;
@@ -33,8 +44,10 @@ public class AddMSActivity extends AppCompatActivity{
 
     private RecyclerView customStringList;
     private RecyclerView customDateList;
+    private Spinner memTypesSpinner;
     private CustomStringRecyclerAdapter stringAdapter;
     private CustomDateRecyclerAdapter dateAdapter;
+    private MyListAdapter memTypesAdapter;
 
     boolean isOK1, isOK2,isOK3, isOK4;
     private EditText shortName, fullName, id, issuer;
@@ -43,8 +56,12 @@ public class AddMSActivity extends AppCompatActivity{
 
     private LocalDate couponExpirationDate;
     private LocalDate subRenewDate;
+    private ConstraintLayout exclusiveDate;
+    private Button chooseDateBt;
+    private EditText chooseDateEt;
 
     private int membershipType;
+
 
     FloatingActionButton addFab;
 
@@ -73,14 +90,23 @@ public class AddMSActivity extends AppCompatActivity{
         Button addCustomStringBt = findViewById(R.id.addCustomStringBt);
         Button addCustomDateBt = findViewById(R.id.addCustomDateBt);
         addFab = findViewById(R.id.addFab);
+        exclusiveDate = findViewById(R.id.exclusiveDate);
+        chooseDateBt = findViewById(R.id.selectDateButton);
+        chooseDateEt = findViewById(R.id.labelTextField);
+        chooseDateEt.setInputType(InputType.TYPE_NULL);
+
         membershipType = 0;
+
+        memTypesSpinner = findViewById(R.id.memTypesSpinner);
+        memTypesAdapter = new MyListAdapter(this, R.layout.item_spinner, getResources().getStringArray(R.array.membershipTypes));
+        memTypesSpinner.setAdapter(memTypesAdapter);
 
         customStringList = findViewById(R.id.customStringRecyclerView);
         customStringList.setLayoutManager(new LinearLayoutManager(this));
         customStringList.setNestedScrollingEnabled(false);
         customStringList.setFocusable(false);
         customStringList.setHasFixedSize(true);
-        stringAdapter = new CustomStringRecyclerAdapter(this,stringList);
+        stringAdapter = new CustomStringRecyclerAdapter(this, stringList);
         customStringList.setAdapter(stringAdapter);
 
         customDateList = findViewById(R.id.customDateRecyclerView);
@@ -88,13 +114,66 @@ public class AddMSActivity extends AppCompatActivity{
         customDateList.setNestedScrollingEnabled(false);
         customDateList.setFocusable(false);
         customDateList.setHasFixedSize(true);
-        dateAdapter = new CustomDateRecyclerAdapter(this,dateList);
+        dateAdapter = new CustomDateRecyclerAdapter(this, dateList);
         customDateList.setAdapter(dateAdapter);
-
 
         addCustomStringBt.setOnClickListener(view -> stringAdapter.updateList(new Pair<>("","")));
         addCustomDateBt.setOnClickListener(view -> dateAdapter.updateList(new Pair<>("", null)));
 
+        memTypesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                membershipType = i;
+                switch (i)
+                {
+                    case 1:
+                        if (exclusiveDate.getVisibility() == View.GONE)
+                            exclusiveDate.setVisibility(View.VISIBLE);
+                        chooseDateEt.setText("Ngày hết hạn");
+                        break;
+                    case 2:
+                        if (exclusiveDate.getVisibility() == View.GONE)
+                            exclusiveDate.setVisibility(View.VISIBLE);
+                        chooseDateEt.setText("Ngày gia hạn");
+                        break;
+                    default:
+                        exclusiveDate.setVisibility(View.GONE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        chooseDateBt.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View view) {
+                MyDatePicker myDatePicker = new MyDatePicker();
+                myDatePicker.setTextID(view, chooseDateBt.getId());
+                myDatePicker.setSetListener(new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        myDatePicker.setDay(datePicker.getDayOfMonth());
+                        myDatePicker.setMonth(datePicker.getMonth());
+                        myDatePicker.setYear(datePicker.getYear());
+                        String date = myDatePicker.getDay() + "/" + (myDatePicker.getMonth() + 1) + "/" + myDatePicker.getYear();
+                        chooseDateBt.setText(date);
+                        if (membershipType == 1)
+                        {
+                            couponExpirationDate = myDatePicker.getLocalDate();
+                        }
+                        else if (membershipType == 2)
+                        {
+                            subRenewDate = myDatePicker.getLocalDate();
+                        }
+                    }
+                });
+                myDatePicker.showTheDialog(view);
+            }
+        });
         addFab.setOnClickListener(view -> {
             cleanEmptyList();
             if (!isOK1 || !isOK2 || !isOK3 || !isOK4)
@@ -105,13 +184,13 @@ public class AddMSActivity extends AppCompatActivity{
                 MembershipBase membershipData;
                 switch (membershipType) {
                     case 1:
-                        membershipData = new Coupon(shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringList, dateList, couponExpirationDate);
+                        membershipData = new Coupon(shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringAdapter.getList(), dateAdapter.getList(), couponExpirationDate);
                         break;
                     case 2:
-                        membershipData = new Subscription(shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringList, dateList, subRenewDate);
+                        membershipData = new Subscription(shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringAdapter.getList(), dateAdapter.getList(), subRenewDate);
                         break;
                     default:
-                        membershipData = new Card(shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringList, dateList);
+                        membershipData = new Card(shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringAdapter.getList(), dateAdapter.getList());
                         break;
                 }
                 Intent pushIntent = new Intent();

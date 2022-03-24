@@ -20,14 +20,16 @@ import com.example.mycards.controller.util.MyDatePicker;
 import com.example.mycards.model.Pair;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRecyclerAdapter.DataViewHolder> {
     LayoutInflater mInflater;
-    List<Pair<String, LocalDate>> mItems;
+    List<Pair<String, LocalDate>> mItems = new ArrayList<>();
     public CustomDateRecyclerAdapter(Context context, List<Pair<String,LocalDate>> items) {
         mInflater = LayoutInflater.from(context);
-        this.mItems = items;
+        this.mItems.clear();
+        this.mItems.addAll(items);
     }
 
     public void updateList(Pair<String,LocalDate> pair) {
@@ -36,12 +38,14 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
         //notifyItemInserted(mItems.size() - 1);
         notifyDataSetChanged();
     }
-
+    public List<Pair<String, LocalDate>> getList()
+    {
+        return mItems;
+    }
     @NonNull
     @Override
     public DataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView;
-        itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_label_date_input, parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_label_date_input, parent,false);
         return new DataViewHolder(itemView);
     }
 

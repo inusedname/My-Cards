@@ -50,8 +50,7 @@ public class MyDatePicker {
         this.setListener = setListener;
     }
     public void showTheDialog(View view){
-        DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Holo_Dialog_MinWidth, setListener, year, month, day);
-        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth, setListener, year, month, day);
         try
         {
             datePickerDialog.show();

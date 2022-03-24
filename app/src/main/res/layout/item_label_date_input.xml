@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
     tools:layout_editor_absoluteX="-4dp"
     tools:layout_editor_absoluteY="7dp">
 
@@ -11,7 +12,6 @@
         android:id="@+id/labelTextField"
         android:layout_width="@dimen/text_field_width_normal"
         android:layout_height="@dimen/text_field_height"
-        android:layout_marginTop="16dp"
         android:background="@drawable/custom_input"
         android:ems="10"
         android:hint="Label"
