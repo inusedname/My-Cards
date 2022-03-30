@@ -205,7 +205,7 @@ public class AddMSActivity extends AppCompatActivity{
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 isOK1 = false;
                 try {
-                    NameValidator.checkShortName(charSequence.toString());
+                    NameValidator.checkShortName(charSequence.toString(), AddMSActivity.this );
                     error_sn.setText("");
                     isOK1 = true;
                 } catch (StringInputFail stringInputFail) {
@@ -228,7 +228,7 @@ public class AddMSActivity extends AppCompatActivity{
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 isOK2 = false;
                 try {
-                    NameValidator.checkFullName(charSequence.toString());
+                    NameValidator.checkFullName(charSequence.toString(),AddMSActivity.this);
                     error_fn.setText("");
                     isOK2 = true;
                 }
@@ -252,7 +252,7 @@ public class AddMSActivity extends AppCompatActivity{
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 isOK3 = false;
                 try {
-                    NameValidator.checkIssuer(charSequence.toString());
+                    NameValidator.checkIssuer(charSequence.toString(), AddMSActivity.this);
                     error_is.setText("");
                     isOK3 = true;
                 }
@@ -274,7 +274,7 @@ public class AddMSActivity extends AppCompatActivity{
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 isOK4 = false;
                 try {
-                    NameValidator.checkStringID(charSequence.toString());
+                    NameValidator.checkStringID(charSequence.toString(), AddMSActivity.this);
                     error_id.setText("");
                     isOK4 = true;
                 }
