@@ -1,5 +1,6 @@
 package com.example.mycards.controller.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +28,9 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
     public List<Pair<String,String>> getList(){
         return mItems;
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void updateList(Pair<String,String> pair) {
         this.mItems.add(pair);
-        System.out.println("Recently Added: " + (mItems.size() - 1));
-        //notifyItemInserted(mItems.size() - 1);
         notifyDataSetChanged();
     }
 
@@ -42,12 +42,14 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
         return new DataViewHolder(itemView);
     }
 
+    @SuppressWarnings("Convert2Lambda")
     @Override
-    public void onBindViewHolder(@NonNull CustomStringRecyclerAdapter.DataViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomStringRecyclerAdapter.DataViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String label = mItems.get(position).getKey();
         String field = mItems.get(position).getValue();
         holder.label.setText(label);
         holder.field.setText(field);
+
 
         holder.field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -78,8 +80,8 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
         EditText field;
         public DataViewHolder(@NonNull View itemView) {
             super(itemView);
-            label = (EditText) itemView.findViewById(R.id.labelTextField);
-            field = (EditText) itemView.findViewById(R.id.valueTextField);
+            label = itemView.findViewById(R.id.chooseDateET);
+            field = itemView.findViewById(R.id.valueTextField);
         }
 
     }

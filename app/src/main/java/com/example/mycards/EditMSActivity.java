@@ -1,14 +1,14 @@
 package com.example.mycards;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 
-public class ViewCardActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class EditMSActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_card);
+        setContentView(R.layout.activity_edit_msactivity);
     }
 }

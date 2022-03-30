@@ -1,13 +1,7 @@
 package com.example.mycards;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -15,31 +9,45 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.mycards.controller.CONSTANT;
+import com.example.mycards.controller.MembershipController;
 import com.example.mycards.controller.adapters.CustomDateRecyclerAdapter;
 import com.example.mycards.controller.adapters.CustomStringRecyclerAdapter;
 import com.example.mycards.controller.adapters.MyListAdapter;
 import com.example.mycards.controller.exceptions.StringInputFail;
 import com.example.mycards.controller.util.MyDatePicker;
+import com.example.mycards.controller.util.MyQRReader;
 import com.example.mycards.controller.util.NameValidator;
 import com.example.mycards.model.Card;
 import com.example.mycards.model.Coupon;
 import com.example.mycards.model.MembershipBase;
 import com.example.mycards.model.Pair;
 import com.example.mycards.model.Subscription;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.journeyapps.barcodescanner.ScanContract;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings({"FieldCanBeLocal"})
 public class AddMSActivity extends AppCompatActivity{
 
     private RecyclerView customStringList;
@@ -53,93 +61,114 @@ public class AddMSActivity extends AppCompatActivity{
     private EditText shortName, fullName, id, issuer;
     private final List<Pair<String,String>> stringList = new ArrayList<>();
     private final List<Pair<String, LocalDate>> dateList = new ArrayList<>();
-
-    private LocalDate couponExpirationDate;
-    private LocalDate subRenewDate;
-    private ConstraintLayout exclusiveDate;
+    private ConstraintLayout exclusiveDateCL;
+    private LocalDate exclusiveDate = null;
     private Button chooseDateBt;
     private EditText chooseDateEt;
+    private CardView frontImgCV, backImgCV;
+    private String frontImgPath, backImgPath;
 
+    private final MyQRReader qrReader = new MyQRReader();
     private int membershipType;
-
 
     FloatingActionButton addFab;
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        assert data != null;
+        if (data.getData() == null)
+            return;
+        if (requestCode == CONSTANT.RESULT_FRONT_PICTURE_CAPTURED)
+        {
+            frontImgPath = data.getData().getPath();
+            ImageView iv = frontImgCV.findViewById(R.id.takePictureIV);
+            iv.setImageBitmap(BitmapFactory.decodeFile(frontImgPath));
+        }
+        else if (requestCode == CONSTANT.RESULT_BACK_PICTURE_CAPTURED) {
+            backImgPath = data.getData().getPath();
+            ImageView iv = backImgCV.findViewById(R.id.takePictureIV);
+            iv.setImageBitmap(BitmapFactory.decodeFile(backImgPath));
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_membership);
 
-        stringList.add(new Pair<>("", ""));
-        dateList.add(new Pair<>("", null));
-
+        //region Bindings
+        frontImgCV = findViewById(R.id.front_image);
+        backImgCV = findViewById(R.id.back_image);
         TextView error_sn = findViewById(R.id.errorTextView_shortName);
         TextView error_fn = findViewById(R.id.errorTextView_fullName);
         TextView error_id = findViewById(R.id.errorTextView_id);
         TextView error_is = findViewById(R.id.errorTextView_issuer);
-        error_sn.setText("");
-        error_fn.setText("");
-        error_id.setText("");
-        error_is.setText("");
-        isOK1 = isOK2 = isOK3 = isOK4 = false;
-
         shortName = findViewById(R.id.shortNameEditText_card);
         fullName = findViewById(R.id.fullNameEditText_card);
         id = findViewById(R.id.idEditText_card);
         issuer = findViewById(R.id.issuerEditText_card);
         Button addCustomStringBt = findViewById(R.id.addCustomStringBt);
         Button addCustomDateBt = findViewById(R.id.addCustomDateBt);
+        ImageButton qrScannerBt = findViewById(R.id.qrScannerBt);
         addFab = findViewById(R.id.addFab);
-        exclusiveDate = findViewById(R.id.exclusiveDate);
-        chooseDateBt = findViewById(R.id.selectDateButton);
-        chooseDateEt = findViewById(R.id.labelTextField);
-        chooseDateEt.setInputType(InputType.TYPE_NULL);
-
-        membershipType = 0;
-
+        exclusiveDateCL = findViewById(R.id.exclusiveDate);
+        chooseDateBt = exclusiveDateCL.findViewById(R.id.chooseDateBT);
+        chooseDateEt = exclusiveDateCL.findViewById(R.id.chooseDateET);
         memTypesSpinner = findViewById(R.id.memTypesSpinner);
+        customStringList = findViewById(R.id.customStringRecyclerView);
+        customDateList = findViewById(R.id.customDateRecyclerView);
+        //endregion
+
+        //region Initials
+        error_sn.setText("");
+        error_fn.setText("");
+        error_id.setText("");
+        error_is.setText("");
+        stringList.add(new Pair<>("", ""));
+        dateList.add(new Pair<>("", null));
+        chooseDateEt.setInputType(InputType.TYPE_NULL);
+        isOK1 = isOK2 = isOK3 = isOK4 = false;
+        membershipType = 0;
+        ((TextView) backImgCV.findViewById(R.id.takePictureTV)).setText(R.string.addActivity_backImg);
+        //endregion
+
+        //region Init Adapters
         memTypesAdapter = new MyListAdapter(this, R.layout.item_spinner, getResources().getStringArray(R.array.membershipTypes));
         memTypesSpinner.setAdapter(memTypesAdapter);
 
-        customStringList = findViewById(R.id.customStringRecyclerView);
+        stringAdapter = new CustomStringRecyclerAdapter(this, stringList);
         customStringList.setLayoutManager(new LinearLayoutManager(this));
         customStringList.setNestedScrollingEnabled(false);
         customStringList.setFocusable(false);
         customStringList.setHasFixedSize(true);
-        stringAdapter = new CustomStringRecyclerAdapter(this, stringList);
         customStringList.setAdapter(stringAdapter);
 
-        customDateList = findViewById(R.id.customDateRecyclerView);
+        dateAdapter = new CustomDateRecyclerAdapter(this, dateList);
         customDateList.setLayoutManager(new LinearLayoutManager(this));
         customDateList.setNestedScrollingEnabled(false);
         customDateList.setFocusable(false);
         customDateList.setHasFixedSize(true);
-        dateAdapter = new CustomDateRecyclerAdapter(this, dateList);
         customDateList.setAdapter(dateAdapter);
+        //endregion
 
+        //region Listeners
+        qrReader.setBarcodeLauncher(registerForActivityResult(new ScanContract(),
+                result -> {
+                    if(result.getContents() != null)
+                        id.setText(result.getContents());
+                }));
+
+        frontImgCV.setOnClickListener(view -> takePictureFront());
+        backImgCV.setOnClickListener(view -> takePictureBack());
         addCustomStringBt.setOnClickListener(view -> stringAdapter.updateList(new Pair<>("","")));
         addCustomDateBt.setOnClickListener(view -> dateAdapter.updateList(new Pair<>("", null)));
-
         memTypesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 membershipType = i;
-                switch (i)
-                {
-                    case 1:
-                        if (exclusiveDate.getVisibility() == View.GONE)
-                            exclusiveDate.setVisibility(View.VISIBLE);
-                        chooseDateEt.setText("Ngày hết hạn");
-                        break;
-                    case 2:
-                        if (exclusiveDate.getVisibility() == View.GONE)
-                            exclusiveDate.setVisibility(View.VISIBLE);
-                        chooseDateEt.setText("Ngày gia hạn");
-                        break;
-                    default:
-                        exclusiveDate.setVisibility(View.GONE);
-                        break;
-                }
+                changeMemType();
             }
 
             @Override
@@ -147,60 +176,25 @@ public class AddMSActivity extends AppCompatActivity{
 
             }
         });
-        chooseDateBt.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View view) {
-                MyDatePicker myDatePicker = new MyDatePicker();
-                myDatePicker.setTextID(view, chooseDateBt.getId());
-                myDatePicker.setSetListener(new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        myDatePicker.setDay(datePicker.getDayOfMonth());
-                        myDatePicker.setMonth(datePicker.getMonth());
-                        myDatePicker.setYear(datePicker.getYear());
-                        String date = myDatePicker.getDay() + "/" + (myDatePicker.getMonth() + 1) + "/" + myDatePicker.getYear();
-                        chooseDateBt.setText(date);
-                        if (membershipType == 1)
-                        {
-                            couponExpirationDate = myDatePicker.getLocalDate();
-                        }
-                        else if (membershipType == 2)
-                        {
-                            subRenewDate = myDatePicker.getLocalDate();
-                        }
-                    }
-                });
-                myDatePicker.showTheDialog(view);
-            }
-        });
-        addFab.setOnClickListener(view -> {
-            cleanEmptyList();
-            if (!isOK1 || !isOK2 || !isOK3 || !isOK4)
-            {
-                Toast.makeText(AddMSActivity.this, "Không tạo được thẻ mới do có lỗi.", Toast.LENGTH_SHORT).show();
-            }
-            else {
-                MembershipBase membershipData;
-                switch (membershipType) {
-                    case 1:
-                        membershipData = new Coupon(shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringAdapter.getList(), dateAdapter.getList(), couponExpirationDate);
-                        break;
-                    case 2:
-                        membershipData = new Subscription(shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringAdapter.getList(), dateAdapter.getList(), subRenewDate);
-                        break;
-                    default:
-                        membershipData = new Card(shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringAdapter.getList(), dateAdapter.getList());
-                        break;
+        chooseDateBt.setOnClickListener(view -> {
+            MyDatePicker myDatePicker = new MyDatePicker(view, chooseDateBt.getId()) {
+                @Override
+                public void whatDoYouWantToDoAfterDateSet() {
+                    exclusiveDate = getLocalDate();
                 }
-                Intent pushIntent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("new_membership", membershipData);
-                pushIntent.putExtras(bundle);
-                setResult(RESULT_OK, pushIntent);
+            };
+            myDatePicker.showTheDialog(view);
+        });
+        qrScannerBt.setOnClickListener(view -> qrReader.run());
+        addFab.setOnClickListener(view -> {
+            if (!isOK1 || !isOK2 || !isOK3 || !isOK4 || (membershipType > 0 && exclusiveDate == null))
+                Toast.makeText(AddMSActivity.this, R.string.unableToCreateCard, Toast.LENGTH_SHORT).show();
+            else {
+                addMembership();
                 finish();
             }
         });
+
         shortName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -292,9 +286,9 @@ public class AddMSActivity extends AppCompatActivity{
             @Override
             public void afterTextChanged(Editable editable) {}
         });
+        //endregion
     }
-    public void cleanEmptyList()
-    {
+    public void cleanEmptyList() {
         for (Pair<String, String> pair: stringList)
         {
             if (pair.getKey().isEmpty())
@@ -305,5 +299,55 @@ public class AddMSActivity extends AppCompatActivity{
             if (pair.getKey().isEmpty())
                 dateList.remove(pair);
         }
+    }
+    public void changeMemType() {
+        switch (membershipType)
+        {
+            case 1:
+                exclusiveDateCL.setVisibility(View.VISIBLE);
+                chooseDateEt.setText(R.string.expDate);
+                break;
+            case 2:
+                exclusiveDateCL.setVisibility(View.VISIBLE);
+                chooseDateEt.setText(R.string.renewDate);
+                break;
+            default:
+                exclusiveDateCL.setVisibility(View.GONE);
+                break;
+        }
+    }
+    public void takePictureFront() {
+        ImagePicker.with(AddMSActivity.this)
+                .compress(512)
+                .maxResultSize(1920, 1080)
+                .crop(14f, 9f)
+                .start(CONSTANT.RESULT_FRONT_PICTURE_CAPTURED);
+    }
+    public void takePictureBack() {
+        ImagePicker.with(AddMSActivity.this)
+                .compress(512)
+                .maxResultSize(1920, 1080)
+                .crop(14f, 9f)
+                .start(CONSTANT.RESULT_BACK_PICTURE_CAPTURED);
+    }
+    public void addMembership() {
+        cleanEmptyList();
+        MembershipBase membershipData;
+        Intent result = new Intent();
+        switch (membershipType) {
+            case 1:
+                membershipData = new Coupon(frontImgPath, backImgPath, shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringAdapter.getList(), dateAdapter.getList(), exclusiveDate);
+                setResult(CONSTANT.RESULT_ADD_COUPON, result);
+                break;
+            case 2:
+                membershipData = new Subscription(frontImgPath, backImgPath, shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringAdapter.getList(), dateAdapter.getList(), exclusiveDate);
+                setResult(CONSTANT.RESULT_ADD_SUB, result);
+                break;
+            default:
+                membershipData = new Card(frontImgPath, backImgPath, shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringAdapter.getList(), dateAdapter.getList());
+                setResult(CONSTANT.RESULT_ADD_CARD, result);
+                break;
+        }
+        MembershipController.addMembership(AddMSActivity.this, membershipData);
     }
 }

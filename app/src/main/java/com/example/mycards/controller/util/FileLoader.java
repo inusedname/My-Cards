@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
+@SuppressWarnings({"ResultOfMethodCallIgnored", "UnusedDeclaration", "unchecked"})
 public class FileLoader {
     public static <T> void saveToFile(Context context, String fileName, List<T> ls){
         File file = new File(context.getFilesDir(), fileName);

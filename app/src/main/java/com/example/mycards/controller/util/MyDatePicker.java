@@ -1,19 +1,16 @@
 package com.example.mycards.controller.util;
 
 import android.app.DatePickerDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
 import java.time.LocalDate;
 
-public class MyDatePicker {
+public abstract class MyDatePicker {
     private Button tv;
     private int year;
     private int month;
@@ -32,8 +29,11 @@ public class MyDatePicker {
         this.day = day;
     }
 
-    public MyDatePicker()
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressWarnings("Convert2Lambda")
+    public MyDatePicker(View view, int buttonID)
     {
+        setTextID(view, buttonID);
         setListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -42,10 +42,29 @@ public class MyDatePicker {
                 year = datePicker.getYear();
                 String date = day + "/" + (month + 1) + "/" + year;
                 tv.setText(date);
+                whatDoYouWantToDoAfterDateSet();
             }
         };
     }
-    public void setSetListener(DatePickerDialog.OnDateSetListener setListener)
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressWarnings({"Convert2Lambda", "UnusedDeclaration"})
+    public MyDatePicker(View view, int buttonID, LocalDate date)
+    {
+        setTextID(view, buttonID, date);
+        setListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                day = datePicker.getDayOfMonth();
+                month = datePicker.getMonth();
+                year = datePicker.getYear();
+                String date = day + "/" + (month + 1) + "/" + year;
+                tv.setText(date);
+                whatDoYouWantToDoAfterDateSet();
+            }
+        };
+    }
+
+    public void overrideOnDateSet(DatePickerDialog.OnDateSetListener setListener)
     {
         this.setListener = setListener;
     }
@@ -98,4 +117,6 @@ public class MyDatePicker {
     {
         return LocalDate.of(year,month,day);
     }
+
+    public abstract void whatDoYouWantToDoAfterDateSet();
 }

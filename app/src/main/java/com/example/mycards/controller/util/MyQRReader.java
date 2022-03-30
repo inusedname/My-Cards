@@ -1,22 +1,21 @@
 package com.example.mycards.controller.util;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.mycards.MainActivity;
-import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
+/*  Use this on your activity
+    MyQRReader scanner = new MyQRReader();
+    scanner.setBarcodeLauncher(registerForActivityResult(new ScanContract(),
+                        result -> {
+                            id.setText(result.getContents());
+                        }));
+    scanner.run();
+    // You can't use this inside a clickOnListener. Use it inside onCreate() method.
+    */
 public class MyQRReader{
-    private ScanOptions options;
+    private final ScanOptions options;
     private ActivityResultLauncher<ScanOptions> barcodeLauncher;
-    private String result;
 
 
     public MyQRReader()
@@ -28,17 +27,19 @@ public class MyQRReader{
         options.setBeepEnabled(true);
         options.setBarcodeImageEnabled(true);
         options.setOrientationLocked(false);
+
     }
-    public void setLauncher(ActivityResultLauncher<ScanOptions> barcodeLauncher)
+    public void setBarcodeLauncher(ActivityResultLauncher<ScanOptions> launcher)
     {
-        this.barcodeLauncher = barcodeLauncher;
+        this.barcodeLauncher = launcher;
     }
     public void run()
     {
         barcodeLauncher.launch(options);
     }
+    @SuppressWarnings("UnusedDeclaration")
     public String getResult()
     {
-        return result;
+        return barcodeLauncher.toString();
     }
 }

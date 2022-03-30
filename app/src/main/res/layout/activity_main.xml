@@ -4,18 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".MainActivity">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="SpeakableTextPresentCheck">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/appbar_padding"
             android:layout_marginTop="250dp"
             android:orientation="vertical">
 
@@ -23,6 +20,7 @@
                 android:id="@+id/greetings_n_clock"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/appbar_padding"
                 android:layout_marginEnd="@dimen/appbar_padding"
                 android:layout_marginBottom="25dp"
                 android:orientation="horizontal">
@@ -34,19 +32,19 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/greetingsTextView"
+                        android:id="@+id/greetingsTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/helvetica_neue_bold"
+                        android:fontFamily="@font/product_sans_regular"
                         android:includeFontPadding="false"
                         android:text="Chào buổi chiều, "
                         android:textSize="22sp" />
 
                     <TextView
-                        android:id="@+id/userNameTextView"
+                        android:id="@+id/userNameTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/helvetica_neue_bold"
+                        android:fontFamily="@font/product_sans_bold"
                         android:includeFontPadding="false"
                         android:text="Quang Nguyễn"
                         android:textSize="15sp" />
@@ -60,22 +58,21 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/timeTextView"
+                        android:id="@+id/timeTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:fontFamily="@font/helvetica_neue_bold"
+                        android:fontFamily="@font/product_sans_bold"
                         android:includeFontPadding="false"
                         android:text="13:17"
                         android:textAlignment="textEnd"
                         android:textSize="22sp" />
 
                     <TextView
-                        android:id="@+id/dateTextView"
+                        android:id="@+id/dateTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:fontFamily="@font/helvetica_neue_bold"
                         android:includeFontPadding="false"
                         android:text="24/03/2023"
                         android:textAlignment="textEnd"
@@ -88,6 +85,7 @@
                 android:id="@+id/menuBar"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
+                android:layout_marginStart="@dimen/appbar_padding"
                 android:layout_marginEnd="@dimen/appbar_padding"
                 android:layout_marginBottom="25dp"
                 android:background="@drawable/menu_bar"
@@ -97,7 +95,7 @@
                 android:showDividers="middle">
 
                 <LinearLayout
-                    android:id="@+id/clearButton"
+                    android:id="@+id/clearBT"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -123,7 +121,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/addMembershipButton"
+                    android:id="@+id/addMembershipBT"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -148,7 +146,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/allMembershipButton"
+                    android:id="@+id/allMembershipBT"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -173,7 +171,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/userSettingButton"
+                    android:id="@+id/userSettingBT"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -202,52 +200,69 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recent" />
+                android:paddingStart="@dimen/appbar_padding"
+                android:paddingTop="@dimen/home_title_padding"
+                android:paddingBottom="@dimen/home_title_padding"
+                android:text="@string/recent" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recentRecylerView"
+                android:id="@+id/recentRV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/appbar_padding"
                 android:orientation="horizontal" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cards" />
+                android:paddingStart="@dimen/appbar_padding"
+                android:paddingTop="@dimen/home_title_padding"
+                android:paddingBottom="@dimen/home_title_padding"
+                android:text="@string/cards" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cardRecyclerView"
+                android:id="@+id/cardRV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/appbar_padding"
                 android:orientation="horizontal" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Coupons" />
+                android:paddingStart="@dimen/appbar_padding"
+                android:paddingTop="@dimen/home_title_padding"
+                android:paddingBottom="@dimen/home_title_padding"
+                android:text="@string/coupons" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/couponRecyclerView"
+                android:id="@+id/couponRV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/appbar_padding"
+                android:layout_marginLeft="@dimen/appbar_padding"
                 android:orientation="horizontal" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Subscription" />
+                android:paddingStart="@dimen/appbar_padding"
+                android:paddingTop="@dimen/home_title_padding"
+                android:paddingBottom="@dimen/home_title_padding"
+                android:text="@string/subscription" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/subRecyclerView"
+                android:id="@+id/subRV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/appbar_padding"
                 android:orientation="horizontal" />
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/findFab"
+        android:id="@+id/findFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -256,14 +271,12 @@
         android:layout_marginTop="@dimen/fab_margin"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
-        android:backgroundTint="@color/primary_color"
-        android:clickable="true"
-        android:focusable="true"
-        app:ensureMinTouchTargetSize="true"
-        app:fabCustomSize="70dp"
-        app:maxImageSize="40dp"
+        app:fabCustomSize="65dp"
+        app:maxImageSize="30dp"
+
         app:srcCompat="@drawable/ic_baseline_search_24"
-        app:tint="@color/secondary_color"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck"/>
 
 </RelativeLayout>
+<!--    android:backgroundTint="?attr/colorPrimary"-->
+<!--    app:tint="?attr/colorOnPrimary"-->

@@ -1,5 +1,6 @@
 package com.example.mycards.controller.adapters;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Build;
@@ -32,16 +33,17 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
         this.mItems.addAll(items);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void updateList(Pair<String,LocalDate> pair) {
         this.mItems.add(pair);
-        // System.out.println("Recently Added: " + (mItems.size() - 1));
-        //notifyItemInserted(mItems.size() - 1);
         notifyDataSetChanged();
     }
     public List<Pair<String, LocalDate>> getList()
     {
         return mItems;
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @NonNull
     @Override
     public DataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,8 +52,9 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressWarnings("Convert2Lambda")
     @Override
-    public void onBindViewHolder(@NonNull CustomDateRecyclerAdapter.DataViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CustomDateRecyclerAdapter.DataViewHolder holder, @SuppressLint("RecyclerView") int position) {
         String label = mItems.get(position).getKey();
         LocalDate field = mItems.get(position).getValue();
         if (field != null)
@@ -64,7 +67,7 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
         else
         {
             holder.label.setText("");
-            holder.field.setText("Choose date");
+            holder.field.setText(R.string.chooseDate);
             holder.myDatePicker.setTextID(holder.itemView, holder.field.getId());
         }
         holder.label.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -81,7 +84,7 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
                 holder.myDatePicker.showTheDialog(view);
             }
         });
-        holder.myDatePicker.setSetListener(new DatePickerDialog.OnDateSetListener() {
+        holder.myDatePicker.overrideOnDateSet(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 holder.myDatePicker.setDay(datePicker.getDayOfMonth());
@@ -99,13 +102,21 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
     }
     static class DataViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private ItemClickListener itemClickListener;
-        MyDatePicker myDatePicker = new MyDatePicker();
+        MyDatePicker myDatePicker;
         EditText label;
         Button field;
+
+        @RequiresApi(api = Build.VERSION_CODES.O)
         public DataViewHolder(@NonNull View itemView) {
             super(itemView);
-            label = (EditText) itemView.findViewById(R.id.labelTextField);
-            field = (Button) itemView.findViewById(R.id.selectDateButton);
+            label = itemView.findViewById(R.id.chooseDateET);
+            field = itemView.findViewById(R.id.chooseDateBT);
+            myDatePicker = new MyDatePicker(itemView, R.id.chooseDateBT) {
+                @Override
+                public void whatDoYouWantToDoAfterDateSet() {
+
+                }
+            };
             field.setOnClickListener(this);
         }
         public void setItemClickListener(ItemClickListener itemClickListener)

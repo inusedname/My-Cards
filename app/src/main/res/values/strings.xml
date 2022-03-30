@@ -18,9 +18,27 @@
     <string name="login_failed">"Login failed"</string>
 
     <!--    Regex-->
-    <string name="vietnamese_regex">[a-zA-Z0-9 \u0080-\u9fff]+</string>
-    <string name="alphabet_only_regex">[a-zA-Z \u0080-\u9fff]+</string>
     <string name="title_activity_add_new_membership">addNewMembership</string>
+    <string name="addActivity_backImg">Back</string>
+    <string name="expDate">Ngày hết hạn</string>
+    <string name="renewDate">Ngày gia hạn</string>
+    <string name="unableToCreateCard">Không tạo được thẻ mới do có lỗi.</string>
+    <string name="chooseDate">Choose date</string>
+    <string name="recent">Recent</string>
+    <string name="cards">Cards</string>
+    <string name="coupons">Coupons</string>
+    <string name="subscription">Subscription</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="search_bar_position">Vị trí thanh tìm kiếm</string>
+    <string name="backup_data">Sao lưu dữ liệu</string>
+    <string name="restore_data">Khôi phục dữ liệu</string>
+    <string name="erase_all">Reset dữ liệu</string>
+    <string name="cantBeEmpty">Không được để trống</string>
+    <string name="cantLongerThan12">Tên không được dài hơn 12 ký tự</string>
+    <string name="canOnlyAlphaNum">Tên chỉ chứa các chữ cái và số</string>
+    <string name="UniAlphaNumRegex">[a-zA-Z0-9 \\u0080-\\u9fff]+</string>
+    <string name="cantLongerThan25">Tên không được dài hơn 25 kí tự.</string>
 
     <!--    Spinner-->
     <string-array name="membershipTypes">

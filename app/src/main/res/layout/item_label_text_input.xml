@@ -9,10 +9,10 @@
     tools:layout_editor_absoluteY="7dp">
 
     <EditText
-        android:id="@+id/labelTextField"
+        android:id="@+id/chooseDateET"
         android:layout_width="@dimen/text_field_width_normal"
         android:layout_height="@dimen/text_field_height"
-        android:background="@drawable/custom_input"
+        android:background="@drawable/bg_edittext_light_darker"
         android:ems="10"
         android:hint="Label"
         android:inputType="textPersonName"
@@ -22,14 +22,14 @@
 
     <EditText
         android:id="@+id/valueTextField"
-        android:layout_width="@dimen/text_field_width_long"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/text_field_height"
         android:layout_marginTop="5dp"
-        android:background="@drawable/custom_input"
+        android:background="@drawable/bg_edittext_light_darker"
         android:hint="Value"
         android:inputType="textPersonName"
         android:paddingLeft="10dp"
-        app:layout_constraintStart_toStartOf="@+id/labelTextField"
-        app:layout_constraintTop_toBottomOf="@+id/labelTextField" />
+        app:layout_constraintStart_toStartOf="@+id/chooseDateET"
+        app:layout_constraintTop_toBottomOf="@+id/chooseDateET" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

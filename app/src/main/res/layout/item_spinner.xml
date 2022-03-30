@@ -11,7 +11,7 @@
         android:layout_weight="1"
         android:includeFontPadding="true"
         android:text="TextView"
-        android:textColor="@color/secondary_color"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="30sp" />
 
     <ImageView
@@ -20,7 +20,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         app:srcCompat="@drawable/ic_baseline_arrow_drop_down_24"
-        app:tint="@color/secondary_color"
+        app:tint="?attr/colorOnPrimary"
         />
 
 </LinearLayout>

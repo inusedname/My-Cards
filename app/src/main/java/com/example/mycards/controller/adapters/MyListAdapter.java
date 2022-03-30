@@ -1,5 +1,6 @@
 package com.example.mycards.controller.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +13,13 @@ import androidx.annotation.Nullable;
 
 import com.example.mycards.R;
 
-import java.util.List;
-import java.util.Locale;
-
 public class MyListAdapter extends ArrayAdapter<String> {
 
     public MyListAdapter(@NonNull Context context, int resource, @NonNull String[] objects) {
         super(context, resource, objects);
     }
 
+    @SuppressLint("ViewHolder")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

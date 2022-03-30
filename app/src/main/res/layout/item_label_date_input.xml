@@ -9,10 +9,10 @@
     tools:layout_editor_absoluteY="7dp">
 
     <EditText
-        android:id="@+id/labelTextField"
+        android:id="@+id/chooseDateET"
         android:layout_width="@dimen/text_field_width_normal"
         android:layout_height="@dimen/text_field_height"
-        android:background="@drawable/custom_input"
+        android:background="@drawable/bg_edittext_light_darker"
         android:ems="10"
         android:hint="Label"
         android:inputType="textPersonName"
@@ -21,15 +21,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/selectDateButton"
+        android:id="@+id/chooseDateBT"
         android:layout_width="@dimen/text_field_width_normal"
         android:layout_height="@dimen/text_field_height"
         android:inputType="textPersonName"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         android:paddingLeft="10dp"
         android:text="Choose Date"
         android:textAlignment="center"
-        app:layout_constraintBaseline_toBaselineOf="@+id/labelTextField"
+        app:layout_constraintBaseline_toBaselineOf="@+id/chooseDateET"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/labelTextField" />
+        app:layout_constraintStart_toEndOf="@+id/chooseDateET" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
