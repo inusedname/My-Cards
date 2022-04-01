@@ -15,14 +15,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mycards.R;
 import com.example.mycards.model.MembershipBase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeCardViewRecyclerAdapter extends RecyclerView.Adapter<HomeCardViewRecyclerAdapter.DataViewHolder> {
-    List<MembershipBase> mItems;
+    List<MembershipBase> mItems = new ArrayList<>();
 
-    public HomeCardViewRecyclerAdapter(List<MembershipBase> mItems)
+    OnClickCard onClickCard;
+    public interface OnClickCard
     {
-        this.mItems = mItems;
+        void onClick(MembershipBase mBase);
+    };
+    public HomeCardViewRecyclerAdapter(List<MembershipBase> mItems, OnClickCard onClickCard)
+    {
+        this.mItems.addAll(mItems);
+        this.onClickCard = onClickCard;
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -46,6 +53,12 @@ public class HomeCardViewRecyclerAdapter extends RecyclerView.Adapter<HomeCardVi
         TextView title = holder.tv;
         iv.setImageBitmap(BitmapFactory.decodeFile(mBase.getFrontImgDir()));
         title.setText(mBase.getShortName());
+        holder.rl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickCard.onClick(mBase);
+            }
+        });
     }
 
     @Override

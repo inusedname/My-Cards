@@ -1,7 +1,6 @@
 package com.example.mycards.model;
 
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -9,8 +8,6 @@ import java.util.List;
 
 @Entity(tableName = "cardEntity")
 public class Card extends MembershipBase implements Serializable {
-    @PrimaryKey (autoGenerate = true)
-    public int systemID;
     public Card()
     {
 

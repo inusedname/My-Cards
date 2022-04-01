@@ -1,14 +1,12 @@
 package com.example.mycards.controller.database;
 
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.mycards.model.Card;
 import com.example.mycards.model.Coupon;
-import com.example.mycards.model.MembershipBase;
 import com.example.mycards.model.Subscription;
 
 import java.util.List;
@@ -26,22 +24,31 @@ public interface MembershipDAO {
     void insertSub(Subscription subscription);
 
     @Query("SELECT * FROM cardEntity")
-    List<MembershipBase> getCardList();
+    List<Card> getCardList();
 
     @Query("SELECT * FROM couponEntity")
-    List<MembershipBase> getCouponList();
+    List<Coupon> getCouponList();
 
     @Query("SELECT * FROM subscriptionEntity")
-    List<MembershipBase> getSubscriptionList();
+    List<Subscription> getSubscriptionList();
 
-    @Delete
-    void deleteCard(Card card);
+    @Query("SELECT * FROM cardEntity WHERE systemID=:sysId")
+    Card getCard(int sysId);
 
-    @Delete
-    void deleteCoupon(Coupon coupon);
+    @Query("SELECT * FROM couponEntity WHERE systemID=:sysId")
+    Coupon getCoupon(int sysId);
 
-    @Delete
-    void deleteSub(Subscription sub);
+    @Query("SELECT * FROM subscriptionEntity WHERE systemID=:sysId")
+    Subscription getSub(int sysId);
+
+    @Query("DELETE FROM cardEntity WHERE systemID=:sysID")
+    void deleteCard(int sysID);
+
+    @Query("DELETE FROM couponEntity WHERE systemID=:sysID")
+    void deleteCoupon(int sysID);
+
+    @Query("DELETE FROM subscriptionEntity WHERE systemID=:sysID")
+    void deleteSub(int sysID);
 
     @Update
     void updateCard(Card card);

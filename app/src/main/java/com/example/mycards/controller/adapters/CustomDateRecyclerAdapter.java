@@ -2,8 +2,8 @@ package com.example.mycards.controller.adapters;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRecyclerAdapter.DataViewHolder> {
-    LayoutInflater mInflater;
     List<Pair<String, LocalDate>> mItems = new ArrayList<>();
-    public CustomDateRecyclerAdapter(Context context, List<Pair<String,LocalDate>> items) {
-        mInflater = LayoutInflater.from(context);
-        this.mItems.clear();
-        this.mItems.addAll(items);
+    public CustomDateRecyclerAdapter() { ;
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -38,9 +34,13 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
         this.mItems.add(pair);
         notifyDataSetChanged();
     }
+    public void updateList(List<Pair<String, LocalDate>> pair) {
+        this.mItems = pair;
+        notifyDataSetChanged();
+    }
     public List<Pair<String, LocalDate>> getList()
     {
-        return mItems;
+        return this.mItems;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -67,7 +67,7 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
         else
         {
             holder.label.setText("");
-            holder.field.setText(R.string.chooseDate);
+            holder.field.setText(R.string.choose);
             holder.myDatePicker.setTextID(holder.itemView, holder.field.getId());
         }
         holder.label.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -75,6 +75,7 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
             public void onFocusChange(View view, boolean b) {
                 if (!b) {
                     mItems.get(position).setKey(holder.label.getText().toString());
+                    Log.i("STATS", mItems.get(position).getKey());
                 }
             }
         });
@@ -92,7 +93,10 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
                 holder.myDatePicker.setYear(datePicker.getYear());
                 String date = holder.myDatePicker.getDay() + "/" + (holder.myDatePicker.getMonth() + 1) + "/" + holder.myDatePicker.getYear();
                 holder.field.setText(date);
+                mItems.get(position).setKey(holder.label.getText().toString());
+//                TODO Sửa cái nên save lúc nào
                 mItems.get(position).setValue(holder.myDatePicker.getLocalDate());
+                Log.i("STATS", mItems.get(position).getValue().toString());
             }
         });
     }
@@ -109,7 +113,7 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
         @RequiresApi(api = Build.VERSION_CODES.O)
         public DataViewHolder(@NonNull View itemView) {
             super(itemView);
-            label = itemView.findViewById(R.id.chooseDateET);
+            label = itemView.findViewById(R.id.labelET);
             field = itemView.findViewById(R.id.chooseDateBT);
             myDatePicker = new MyDatePicker(itemView, R.id.chooseDateBT) {
                 @Override

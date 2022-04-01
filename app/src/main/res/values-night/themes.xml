@@ -22,6 +22,8 @@
         <item name="android:colorControlHighlight">@color/light_color</item>
 <!--        <item name="floatingActionButtonStyle">@style/FABStyle</item>-->
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
 
     </style>
 </resources>

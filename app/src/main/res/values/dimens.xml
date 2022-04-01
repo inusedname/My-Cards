@@ -15,11 +15,12 @@
     <dimen name="text_inside_cardlview_margin">15dp</dimen>
     <dimen name="home_cardview_width">180dp</dimen>
     <dimen name="home_cardview_height">120dp</dimen>
-    <dimen name="addms_cardview_width">150dp</dimen>
+    <dimen name="addms_card_view_width">150dp</dimen>
     <dimen name="addms_cardview_height">100dp</dimen>
     <dimen name="corner_radius">8dp</dimen>
     <dimen name="home_title_padding">7dp</dimen>
     <dimen name="user_item_height">40dp</dimen>
     <dimen name="user_item_textSize">20sp</dimen>
+    <dimen name="user_item_buttonSize">70dp</dimen>
 
 </resources>

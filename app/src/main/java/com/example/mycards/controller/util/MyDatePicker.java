@@ -1,5 +1,6 @@
 package com.example.mycards.controller.util;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Build;
 import android.view.View;
@@ -69,7 +70,7 @@ public abstract class MyDatePicker {
         this.setListener = setListener;
     }
     public void showTheDialog(View view){
-        DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth, setListener, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth, setListener, year, month-1, day);
         try
         {
             datePickerDialog.show();
@@ -81,6 +82,7 @@ public abstract class MyDatePicker {
 
 
     }
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setTextID(View view, int id, LocalDate date)
     {
@@ -89,6 +91,7 @@ public abstract class MyDatePicker {
         year = date.getYear();
         month = date.getMonthValue();
         day = date.getDayOfMonth();
+        tv.setText(day + "/" + (month + 1) + "/" + year);
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setTextID(View view, int id)
@@ -115,7 +118,7 @@ public abstract class MyDatePicker {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public LocalDate getLocalDate()
     {
-        return LocalDate.of(year,month,day);
+        return LocalDate.of(year,month + 1,day);
     }
 
     public abstract void whatDoYouWantToDoAfterDateSet();

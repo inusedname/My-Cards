@@ -1,7 +1,7 @@
 package com.example.mycards.controller.adapters;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +17,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStringRecyclerAdapter.DataViewHolder> {
-    LayoutInflater mInflater;
     List<Pair<String,String>> mItems = new ArrayList<>();
-    public CustomStringRecyclerAdapter(Context context, List<Pair<String,String>> items) {
-        mInflater = LayoutInflater.from(context);
-        this.mItems.clear();
-        this.mItems.addAll(items);
+    public CustomStringRecyclerAdapter() {
     }
 
     public List<Pair<String,String>> getList(){
-        return mItems;
+        return this.mItems;
     }
     @SuppressLint("NotifyDataSetChanged")
     public void updateList(Pair<String,String> pair) {
         this.mItems.add(pair);
         notifyDataSetChanged();
     }
-
+    public void updateList(List<Pair<String, String>> pair)
+    {
+        this.mItems = pair;
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public DataViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -56,6 +56,7 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
             public void onFocusChange(View view, boolean b) {
                 if (!b) {
                     mItems.get(position).setValue(holder.field.getText().toString());
+                    Log.i("STATS", mItems.get(position).getValue());
                 }
             }
         });
@@ -64,6 +65,7 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
             public void onFocusChange(View view, boolean b) {
                 if (!b) {
                     mItems.get(position).setKey(holder.label.getText().toString());
+                    Log.i("STATS", mItems.get(position).getKey());
                 }
             }
         });
@@ -80,8 +82,8 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
         EditText field;
         public DataViewHolder(@NonNull View itemView) {
             super(itemView);
-            label = itemView.findViewById(R.id.chooseDateET);
-            field = itemView.findViewById(R.id.valueTextField);
+            label = itemView.findViewById(R.id.labelET);
+            field = itemView.findViewById(R.id.valueET);
         }
 
     }

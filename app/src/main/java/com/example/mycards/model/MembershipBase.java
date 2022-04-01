@@ -1,5 +1,7 @@
 package com.example.mycards.model;
 
+import androidx.room.PrimaryKey;
+
 import java.io.File;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -7,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MembershipBase implements Serializable {
+    @PrimaryKey(autoGenerate = true)
+    public int systemID;
     protected String membershipID = null;
     protected String shortName = null;
     protected String fullName = null;
@@ -44,6 +48,15 @@ public class MembershipBase implements Serializable {
             new File(frontImgDir).delete();
         }
         frontImgDir = dir;
+    }
+    public void clearImage()
+    {
+        if (this.frontImgDir != null) {
+            new File(frontImgDir).delete();
+        }
+        if (this.backImgDir != null) {
+            new File(backImgDir).delete();
+        }
     }
     public String getFrontImgDir() {
         return frontImgDir;

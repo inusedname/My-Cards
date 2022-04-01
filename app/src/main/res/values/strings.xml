@@ -24,7 +24,7 @@
     <string name="expDate">Ngày hết hạn</string>
     <string name="renewDate">Ngày gia hạn</string>
     <string name="unableToCreateCard">Không tạo được thẻ mới do có lỗi.</string>
-    <string name="chooseDate">Choose date</string>
+    <string name="unableToEditCard">Không sửa được thẻ do có lỗi.</string>
     <string name="recent">Recent</string>
     <string name="cards">Cards</string>
     <string name="coupons">Coupons</string>
@@ -40,6 +40,20 @@
     <string name="canOnlyAlphaNum">Tên chỉ chứa các chữ cái và số</string>
     <string name="UniAlphaNumRegex">[a-zA-Z0-9 \\u0080-\\u9fff]+</string>
     <string name="cantLongerThan25">Tên không được dài hơn 25 kí tự.</string>
+    <string name="user_credit"><![CDATA[First Android App by VanSuTuyDuyen. I hope you like it <3]]></string>
+    <string name="user_message">App đôi lúc sẽ có bug mà mình chưa phát hiện ra trong quá trình code, mong các bạn có thể báo cáo lỗi cho mình qua google form và cho mình biết những chức năng mà bạn muốn có trong tương lai nha :3</string>
+    <string name="underConstruction">Chức năng hiện đang được phát triển, các bạn vui lòng đợi nhé!</string>
+    <string name="label">Nhãn</string>
+    <string name="value">Nội dung</string>
+    <string name="choose">Ngày</string>
+    <string name="add_new">Thêm mới</string>
+    <string name="shortName">Tên rút gọn</string>
+    <string name="fullName">Tên đầy đủ</string>
+    <string name="issuer">Bên cấp thẻ</string>
+    <string name="customString">Tuỳ chỉnh (chữ)</string>
+    <string name="add">THÊM</string>
+    <string name="customDate">Tuỳ chỉnh (ngày)</string>
+    <string name="edit_ms">Chỉnh sửa</string>
 
     <!--    Spinner-->
     <string-array name="membershipTypes">

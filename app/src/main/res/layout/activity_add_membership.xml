@@ -14,6 +14,7 @@
         android:background="?attr/colorPrimary"
         android:orientation="vertical"
         android:paddingStart="20dp"
+        android:paddingEnd="0dp"
         android:paddingTop="30dp"
 
         android:paddingBottom="10dp">
@@ -23,19 +24,19 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/product_sans_bold"
             android:includeFontPadding="false"
-            android:text="Thêm mới"
+            android:text="@string/add_new"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="34sp" />
 
         <Spinner
             android:id="@+id/memTypesSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@android:color/transparent" />
 
     </LinearLayout>
-
+<!--    TODO chỉnh lại padding của TextView -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -47,19 +48,19 @@
             android:orientation="vertical"
             android:paddingStart="20dp"
             android:paddingTop="20dp"
-            android:paddingEnd="20dp">
+            android:paddingEnd="20dp"
+            >
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <include
                     android:id="@+id/front_image"
-                    layout="@layout/item_cardview_add_ms"
-                    android:layout_width="@dimen/addms_cardview_width"
+                    layout="@layout/item_card_view_add_ms"
+                    android:layout_width="@dimen/addms_card_view_width"
                     android:layout_height="@dimen/addms_cardview_height"
                     android:layout_marginBottom="20dp"
                     android:layout_weight="1" />
@@ -70,8 +71,8 @@
 
                 <include
                     android:id="@+id/back_image"
-                    layout="@layout/item_cardview_add_ms"
-                    android:layout_width="@dimen/addms_cardview_width"
+                    layout="@layout/item_card_view_add_ms"
+                    android:layout_width="@dimen/addms_card_view_width"
                     android:layout_height="@dimen/addms_cardview_height"
                     android:layout_weight="1" />
             </LinearLayout>
@@ -80,31 +81,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Short Name"
-
-                android:textAlignment="viewStart"
-                tools:ignore="HardcodedText" />
+                android:text="@string/shortName"
+                android:textAlignment="viewStart" />
 
 
             <EditText
-                android:id="@+id/shortNameEditText_card"
+                android:id="@+id/shortNameET"
                 android:layout_width="@dimen/text_field_width_normal"
                 android:layout_height="@dimen/text_field_height"
                 android:layout_weight="1"
                 android:background="@drawable/bg_edittext_light_darker"
                 android:ems="10"
-                android:hint="Short Name"
+                android:hint="@string/shortName"
                 android:inputType="textPersonName"
-                android:paddingLeft="10dp"
-                tools:ignore="HardcodedText" />
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                tools:ignore="Autofill" />
 
 
             <TextView
-                android:id="@+id/errorTextView_shortName"
+                android:id="@+id/shortNameErrorTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textColor="#FF1100" />
+                android:textColor="#FF1100"
+                tools:ignore="HardcodedText" />
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
@@ -116,26 +117,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Full Name"
+                android:text="@string/fullName"
                 android:textAlignment="viewStart" />
 
             <EditText
-                android:id="@+id/fullNameEditText_card"
+                android:id="@+id/fullNameET"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/text_field_height"
                 android:layout_weight="1"
                 android:background="@drawable/bg_edittext_light_darker"
                 android:ems="10"
-                android:hint="Full Name"
+                android:hint="@string/fullName"
                 android:inputType="textPersonName"
-                android:paddingLeft="10dp" />
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                tools:ignore="Autofill" />
 
             <TextView
-                android:id="@+id/errorTextView_fullName"
+                android:id="@+id/fullNameErrorTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textColor="#FF0000" />
+                android:textColor="#FF0000"
+                tools:ignore="HardcodedText" />
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
@@ -147,7 +151,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="ID"
-                android:textAlignment="viewStart" />
+                android:textAlignment="viewStart"
+                tools:ignore="HardcodedText" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -157,31 +162,33 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/idEditText_card"
+                    android:id="@+id/idET"
                     android:layout_width="@dimen/text_field_width_long"
                     android:layout_height="@dimen/text_field_height"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_edittext_light_darker_leftcurved"
                     android:hint="ID"
                     android:inputType="textPersonName"
-                    android:paddingStart="10dp" />
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    tools:ignore="Autofill,HardcodedText" />
 
                 <ImageButton
                     android:id="@+id/qrScannerBt"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="30"
                     android:background="@drawable/bg_button_side_text_rightcurved"
                     app:srcCompat="@drawable/ic_baseline_qr_code_scanner_24"
-                    app:tint="?attr/colorSecondary" />
+                    app:tint="?attr/colorSecondary"
+                    tools:ignore="ContentDescription" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/errorTextView_id"
+                android:id="@+id/idErrorTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textColor="#FF1100" />
+                android:textColor="#FF1100"
+                tools:ignore="HardcodedText" />
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
@@ -192,26 +199,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Issuer"
+                android:text="@string/issuer"
                 android:textAlignment="viewStart" />
 
             <EditText
-                android:id="@+id/issuerEditText_card"
+                android:id="@+id/issuerET"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/text_field_height"
                 android:layout_weight="1"
                 android:background="@drawable/bg_edittext_light_darker"
                 android:ems="10"
-                android:hint="Issuer"
+                android:hint="@string/issuer"
                 android:inputType="textPersonName"
-                android:paddingLeft="10dp" />
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                tools:ignore="Autofill" />
 
             <TextView
-                android:id="@+id/errorTextView_issuer"
+                android:id="@+id/issuerErrorTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
-                android:textColor="#FF0000" />
+                android:textColor="#FF0000"
+                tools:ignore="HardcodedText" />
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
@@ -231,10 +241,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Custom Field (Text)" />
+                android:text="@string/customString" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/customStringRecyclerView"
+                android:id="@+id/customStringRV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -243,28 +253,30 @@
                 android:id="@+id/addCustomStringBt"
                 android:layout_width="@dimen/text_field_width_normal"
                 android:layout_height="@dimen/text_field_height"
+                android:layout_marginTop="10dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:text="ADD" />
+                android:text="@string/add" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="40dp"
-                android:text="Custom Field (Date)" />
+                android:text="@string/customDate" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/customDateRecyclerView"
+                android:id="@+id/customDateRV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
             <Button
                 android:id="@+id/addCustomDateBt"
-                android:layout_width="150dp"
+                android:layout_width="@dimen/text_field_width_normal"
                 android:layout_height="@dimen/text_field_height"
+                android:layout_marginTop="10dp"
                 android:insetTop="0dp"
                 android:insetBottom="0dp"
-                android:text="ADD" />
+                android:text="@string/add" />
 
             <androidx.legacy.widget.Space
                 android:layout_width="match_parent"
@@ -284,9 +296,10 @@
         android:layout_marginTop="@dimen/fab_margin"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
+        android:focusable="true"
         app:fabCustomSize="65dp"
         app:maxImageSize="30dp"
         app:srcCompat="@drawable/ic_baseline_add_24"
-        tools:ignore="ContentDescription,SpeakableTextPresentCheck"/>
+        tools:ignore="ContentDescription,SpeakableTextPresentCheck" />
 
 </RelativeLayout>
