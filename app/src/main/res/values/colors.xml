@@ -9,6 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="darker_grey">#9F000000</color>
     <color name="red">#FF0000</color>
-    <color name="main_color">#e6e6dd</color>
-    <color name="secondary_color">#4d4d4d</color>
+    <color name="light_color_darker">#e6e6dd</color>
+    <color name="dark_color">#4d4d4d</color>
+    <color name="light_color">@color/white</color>
+    <color name="dark_color_darker">#393939</color>
 </resources>

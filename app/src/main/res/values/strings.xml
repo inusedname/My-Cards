@@ -1,9 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">My Cards</string>
-    <string name="helloUser_text">Chào buổi sáng, Quang Nguyễn!</string>
+    <string name="user_name">Quang Nguyễn</string>
+
+    <!--    Greetings in Vietnamese-->
     <string name="good_morning">Chào buổi sáng, </string>
     <string name="good_afternoon">Chào buổi chiều, </string>
     <string name="good_night">Chào buổi tối, </string>
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -13,11 +17,48 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="vietnamese_regex">[a-zA-Z0-9 \u0080-\u9fff]+</string>
-    <string name="alphabet_only_regex">[a-zA-Z \u0080-\u9fff]+</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    Regex-->
     <string name="title_activity_add_new_membership">addNewMembership</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="addActivity_backImg">Back</string>
+    <string name="expDate">Ngày hết hạn</string>
+    <string name="renewDate">Ngày gia hạn</string>
+    <string name="unableToCreateCard">Không tạo được thẻ mới do có lỗi.</string>
+    <string name="unableToEditCard">Không sửa được thẻ do có lỗi.</string>
+    <string name="recent">Recent</string>
+    <string name="cards">Cards</string>
+    <string name="coupons">Coupons</string>
+    <string name="subscription">Subscription</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="search_bar_position">Vị trí thanh tìm kiếm</string>
+    <string name="backup_data">Sao lưu dữ liệu</string>
+    <string name="restore_data">Khôi phục dữ liệu</string>
+    <string name="erase_all">Reset dữ liệu</string>
+    <string name="cantBeEmpty">Không được để trống</string>
+    <string name="cantLongerThan12">Tên không được dài hơn 12 ký tự</string>
+    <string name="canOnlyAlphaNum">Tên chỉ chứa các chữ cái và số</string>
+    <string name="UniAlphaNumRegex">[a-zA-Z0-9 \\u0080-\\u9fff]+</string>
+    <string name="cantLongerThan25">Tên không được dài hơn 25 kí tự.</string>
+    <string name="user_credit"><![CDATA[First Android App by VanSuTuyDuyen. I hope you like it <3]]></string>
+    <string name="user_message">App đôi lúc sẽ có bug mà mình chưa phát hiện ra trong quá trình code, mong các bạn có thể báo cáo lỗi cho mình qua google form và cho mình biết những chức năng mà bạn muốn có trong tương lai nha :3</string>
+    <string name="underConstruction">Chức năng hiện đang được phát triển, các bạn vui lòng đợi nhé!</string>
+    <string name="label">Nhãn</string>
+    <string name="value">Nội dung</string>
+    <string name="choose">Ngày</string>
+    <string name="add_new">Thêm mới</string>
+    <string name="shortName">Tên rút gọn</string>
+    <string name="fullName">Tên đầy đủ</string>
+    <string name="issuer">Bên cấp thẻ</string>
+    <string name="customString">Tuỳ chỉnh (chữ)</string>
+    <string name="add">THÊM</string>
+    <string name="customDate">Tuỳ chỉnh (ngày)</string>
+    <string name="edit_ms">Chỉnh sửa</string>
+
+    <!--    Spinner-->
+    <string-array name="membershipTypes">
+        <item>Thẻ</item>
+        <item>Coupon</item>
+        <item>Gói đăng ký</item>
+    </string-array>
 </resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingStart="0dp"
+    android:paddingEnd="@dimen/appbar_padding">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/home_cardview_width"
+        android:layout_height="@dimen/home_cardview_height"
+
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="@dimen/corner_radius">
+
+        <RelativeLayout
+            android:id="@+id/cardRL"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/takePictureIV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/fading_gradient_bg"
+                tools:ignore="ContentDescription" />
+            <TextView
+                android:id="@+id/titleTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="@dimen/text_inside_cardlview_margin"
+                android:layout_marginTop="@dimen/text_inside_cardlview_margin"
+                android:layout_marginEnd="@dimen/text_inside_cardlview_margin"
+                android:layout_marginBottom="@dimen/text_inside_cardlview_margin"
+                android:fontFamily="@font/helvetica_neue_bold"
+                android:includeFontPadding="false"
+                android:text="PTIT"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

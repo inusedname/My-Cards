@@ -1,19 +1,17 @@
 package com.example.mycards.controller.util;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
 import java.time.LocalDate;
 
-public class MyDatePicker {
+public abstract class MyDatePicker {
     private Button tv;
     private int year;
     private int month;
@@ -32,8 +30,11 @@ public class MyDatePicker {
         this.day = day;
     }
 
-    public MyDatePicker()
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressWarnings("Convert2Lambda")
+    public MyDatePicker(View view, int buttonID)
     {
+        setTextID(view, buttonID);
         setListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -42,16 +43,34 @@ public class MyDatePicker {
                 year = datePicker.getYear();
                 String date = day + "/" + (month + 1) + "/" + year;
                 tv.setText(date);
+                whatDoYouWantToDoAfterDateSet();
             }
         };
     }
-    public void setSetListener(DatePickerDialog.OnDateSetListener setListener)
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressWarnings({"Convert2Lambda", "UnusedDeclaration"})
+    public MyDatePicker(View view, int buttonID, LocalDate date)
+    {
+        setTextID(view, buttonID, date);
+        setListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                day = datePicker.getDayOfMonth();
+                month = datePicker.getMonth();
+                year = datePicker.getYear();
+                String date = day + "/" + (month + 1) + "/" + year;
+                tv.setText(date);
+                whatDoYouWantToDoAfterDateSet();
+            }
+        };
+    }
+
+    public void overrideOnDateSet(DatePickerDialog.OnDateSetListener setListener)
     {
         this.setListener = setListener;
     }
     public void showTheDialog(View view){
-        DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_Holo_Dialog_MinWidth, setListener, year, month, day);
-        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth, setListener, year, month-1, day);
         try
         {
             datePickerDialog.show();
@@ -63,6 +82,7 @@ public class MyDatePicker {
 
 
     }
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setTextID(View view, int id, LocalDate date)
     {
@@ -71,6 +91,7 @@ public class MyDatePicker {
         year = date.getYear();
         month = date.getMonthValue();
         day = date.getDayOfMonth();
+        tv.setText(day + "/" + (month + 1) + "/" + year);
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void setTextID(View view, int id)
@@ -97,6 +118,8 @@ public class MyDatePicker {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public LocalDate getLocalDate()
     {
-        return LocalDate.of(year,month,day);
+        return LocalDate.of(year,month + 1,day);
     }
+
+    public abstract void whatDoYouWantToDoAfterDateSet();
 }
