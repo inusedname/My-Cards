@@ -16,11 +16,11 @@
         <item name="android:fontFamily">@font/product_sans_regular</item>
         <item name="android:buttonStyle">@style/ButtonStyle</item>
         <!-- Customize your theme here. -->
-        <item name="android:colorBackground">@color/dark_color</item>
-        <item name="android:colorControlNormal">@color/light_color</item>
-        <item name="android:colorControlActivated">@color/light_color</item>
-        <item name="android:colorControlHighlight">@color/light_color</item>
-<!--        <item name="floatingActionButtonStyle">@style/FABStyle</item>-->
+        <item name="android:colorAccent">?attr/colorPrimary</item>
+        <item name="android:windowBackground">@color/dark_color</item>
+        <item name="android:colorControlNormal">?attr/colorPrimary</item>
+        <item name="android:colorControlActivated">?attr/colorPrimary</item>
+        <item name="android:colorControlHighlight">?attr/colorPrimary</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>

@@ -24,6 +24,12 @@ public class MyQRGenerator {
      */
     public static Bitmap generateQRCode(String infoString, int width, int height, BarcodeFormat format)
     {
+        if (format == BarcodeFormat.CODE_39 || format == BarcodeFormat.CODE_128)
+            if (infoString.length() > 80)
+                return null;
+        if (format == BarcodeFormat.EAN_13)
+            if (infoString.length() < 12 || infoString.length() > 13)
+                return null;
         MultiFormatWriter writer = new MultiFormatWriter();
         try {
             BitMatrix matrix = writer.encode(infoString, format, width, height);

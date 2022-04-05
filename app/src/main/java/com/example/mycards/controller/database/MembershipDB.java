@@ -13,7 +13,7 @@ import com.example.mycards.model.Subscription;
 
 
 @Database(entities = {Card.class, Coupon.class, Subscription.class}, version = 1)
-@TypeConverters({StringLocalDateConverter.class, StringStringConverter.class, DateConverter.class})
+@TypeConverters({StringLocalDateConverter.class, StringStringConverter.class, DateConverter.class, DateTimeConverter.class})
 public abstract class MembershipDB extends RoomDatabase {
     private static final String DATABASE_NAME = "Memberships.db";
     private static MembershipDB instance;

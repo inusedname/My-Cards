@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".QRScannerActivity" >
+
+    <TextView
+        android:id="@+id/valueTV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:paddingStart="@dimen/appbar_padding"
+        android:paddingTop="100dp"
+        android:paddingRight="@dimen/appbar_padding"
+        android:paddingBottom="@dimen/appbar_padding"
+        android:text="Chưa có gì cả"
+        android:textColor="?attr/colorOnPrimary"
+        android:textCursorDrawable="@drawable/et_cursor_primarycolor"
+        android:textSize="@dimen/user_item_textSize" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/copyButton"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="COPY"
+            android:textSize="17sp" />
+        <androidx.legacy.widget.Space
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/scanButton"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text="CHỤP"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+</LinearLayout>

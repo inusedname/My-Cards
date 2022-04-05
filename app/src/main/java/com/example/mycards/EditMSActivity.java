@@ -2,7 +2,6 @@ package com.example.mycards;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -39,11 +37,12 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.journeyapps.barcodescanner.ScanContract;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"FieldCanBeLocal"})
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class EditMSActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -150,18 +149,23 @@ public class EditMSActivity extends AppCompatActivity {
             ((ImageView)backImgCV.findViewById(R.id.takePictureIV)).setImageBitmap(BitmapFactory.decodeFile(backImgPath));
             backImgCV.findViewById(R.id.addImageInstruction).setVisibility(View.GONE);
         }
+        String dateToString;
         switch (membershipType)
         {
-            case 1:
+            case CONSTANT.COUPON:
                 exclusiveDateCL.setVisibility(View.VISIBLE);
                 exclusiveDate = ((Coupon)mBase).getExpDate();
+                dateToString = exclusiveDate.getDayOfMonth() + "/" + exclusiveDate.getMonthValue() + "/" + exclusiveDate.getYear();
                 chooseDateEt.setText(R.string.expDate);
+                ((Button)exclusiveDateCL.findViewById(R.id.chooseDateBT)).setText(dateToString);
                 setExclusiveDateButtonListener();
                 break;
-            case 2:
+            case CONSTANT.SUB:
                 exclusiveDateCL.setVisibility(View.VISIBLE);
                 exclusiveDate = ((Subscription)mBase).getRenewDate();
+                dateToString = exclusiveDate.getDayOfMonth() + "/" + exclusiveDate.getMonthValue() + "/" + exclusiveDate.getYear();
                 chooseDateEt.setText(R.string.renewDate);
+                ((Button)exclusiveDateCL.findViewById(R.id.chooseDateBT)).setText(dateToString);
                 setExclusiveDateButtonListener();
                 break;
             default:
@@ -206,7 +210,6 @@ public class EditMSActivity extends AppCompatActivity {
                 Toast.makeText(EditMSActivity.this, R.string.unableToEditCard, Toast.LENGTH_SHORT).show();
             else {
                 editMembership();
-                finish();
             }
         });
 
@@ -335,6 +338,7 @@ public class EditMSActivity extends AppCompatActivity {
     private void editMembership() {
         cleanEmptyList();
         Intent result = new Intent();
+        List<Integer> flags = new ArrayList<>();
         mBase.setFrontImgDir(frontImgPath);
         mBase.setBackImgDir(backImgPath);
         mBase.setMembershipID(id.getText().toString());
@@ -347,19 +351,23 @@ public class EditMSActivity extends AppCompatActivity {
         {
             case CONSTANT.CARD:
                 MembershipController.updateCard(EditMSActivity.this, mBase);
-                setResult(CONSTANT.RESULT_EDIT_CARD, result);
+                flags.add(CONSTANT.RESULT_EDIT_CARD);
                 break;
             case CONSTANT.COUPON:
                 ((Coupon)mBase).setExpDate(exclusiveDate);
                 MembershipController.updateCoupon(EditMSActivity.this, mBase);
-                setResult(CONSTANT.RESULT_EDIT_COUPON, result);
+                flags.add(CONSTANT.RESULT_EDIT_COUPON);
                 break;
             case CONSTANT.SUB:
                 ((Subscription)mBase).setRenewDate(exclusiveDate);
                 MembershipController.updateSub(EditMSActivity.this, mBase);
-                setResult(CONSTANT.RESULT_EDIT_SUB, result);
+                flags.add(CONSTANT.RESULT_EDIT_SUB);
                 break;
         }
+        result.putExtra("flags", (Serializable) flags);
+        result.putExtra("data", mBase);
+        setResult(RESULT_OK, result);
+        finish();
     }
     private void setExclusiveDateButtonListener() {
         chooseDateBt.setOnClickListener(view -> {

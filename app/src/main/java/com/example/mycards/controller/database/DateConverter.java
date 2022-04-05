@@ -10,8 +10,7 @@ import java.time.LocalDate;
 
 public class DateConverter {
     @TypeConverter
-    public LocalDate StringToLD (String value)
-    {
+    public LocalDate StringToLD (String value) {
         if (value== null) {
             return (null);
         }

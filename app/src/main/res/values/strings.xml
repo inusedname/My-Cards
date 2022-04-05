@@ -1,47 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">My Cards</string>
-    <string name="user_name">Quang Nguyễn</string>
 
     <!--    Greetings in Vietnamese-->
-    <string name="good_morning">Chào buổi sáng, </string>
-    <string name="good_afternoon">Chào buổi chiều, </string>
-    <string name="good_night">Chào buổi tối, </string>
+    <string name="good_morning">Chào buổi sáng</string>
+    <string name="good_afternoon">Chào buổi chiều</string>
+    <string name="good_night">Chào buổi tối</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome!"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
+    <string name="prompt_password">Mật khẩu</string>
+    <string name="action_sign_in">Đăng nhập - Đăng kí</string>
+    <string name="action_sign_in_short">Đăng nhập</string>
+    <string name="welcome">Xin chào!</string>
+    <string name="login_failed">Đăng nhập thất bại</string>
 
-    <!--    Regex-->
-    <string name="title_activity_add_new_membership">addNewMembership</string>
-    <string name="addActivity_backImg">Back</string>
+    <!--    Strings-->
+    <string name="addActivity_backImg">Mặt sau</string>
     <string name="expDate">Ngày hết hạn</string>
     <string name="renewDate">Ngày gia hạn</string>
     <string name="unableToCreateCard">Không tạo được thẻ mới do có lỗi.</string>
     <string name="unableToEditCard">Không sửa được thẻ do có lỗi.</string>
-    <string name="recent">Recent</string>
-    <string name="cards">Cards</string>
+    <string name="recent">Gần đây</string>
+    <string name="cards">Thẻ</string>
     <string name="coupons">Coupons</string>
-    <string name="subscription">Subscription</string>
-    <string name="dark_mode">Dark Mode</string>
+    <string name="subscription">Gói đăng ký</string>
+    <string name="dark_mode">Theme</string>
     <string name="language">Ngôn ngữ</string>
-    <string name="search_bar_position">Vị trí thanh tìm kiếm</string>
     <string name="backup_data">Sao lưu dữ liệu</string>
     <string name="restore_data">Khôi phục dữ liệu</string>
-    <string name="erase_all">Reset dữ liệu</string>
+    <string name="erase_all">Reset toàn bộ dữ liệu</string>
     <string name="cantBeEmpty">Không được để trống</string>
     <string name="cantLongerThan12">Tên không được dài hơn 12 ký tự</string>
     <string name="canOnlyAlphaNum">Tên chỉ chứa các chữ cái và số</string>
-    <string name="UniAlphaNumRegex">[a-zA-Z0-9 \\u0080-\\u9fff]+</string>
+    <string name="UniAlphaNumRegex" translatable="false">[a-zA-Z0-9 \\u0080-\\u9fff]+</string>
     <string name="cantLongerThan25">Tên không được dài hơn 25 kí tự.</string>
-    <string name="user_credit"><![CDATA[First Android App by VanSuTuyDuyen. I hope you like it <3]]></string>
-    <string name="user_message">App đôi lúc sẽ có bug mà mình chưa phát hiện ra trong quá trình code, mong các bạn có thể báo cáo lỗi cho mình qua google form và cho mình biết những chức năng mà bạn muốn có trong tương lai nha :3</string>
+    <string name="user_credit" translatable="false"><![CDATA[First Android App by VanSuTuyDuyen. I hope you like it <3]]></string>
+    <string name="user_message">App đôi lúc sẽ có bug mà mình chưa phát hiện ra trong quá trình code, mong các bạn có thể báo cáo lỗi cho mình qua Google Form và hãy cho mình biết những chức năng mà bạn muốn có trong tương lai nha :3</string>
     <string name="underConstruction">Chức năng hiện đang được phát triển, các bạn vui lòng đợi nhé!</string>
     <string name="label">Nhãn</string>
     <string name="value">Nội dung</string>
@@ -54,11 +49,45 @@
     <string name="add">THÊM</string>
     <string name="customDate">Tuỳ chỉnh (ngày)</string>
     <string name="edit_ms">Chỉnh sửa</string>
+    <string name="required">Bắt buộc</string>
+    <string name="removeAll">Xoá hết</string>
+    <string name="all">Tất cả</string>
+    <string name="setting">Cài đặt</string>
+    <string name="day">Sáng</string>
+    <string name="night">Tối</string>
+    <string name="bysystem">Theo hệ thống</string>
+
 
     <!--    Spinner-->
     <string-array name="membershipTypes">
-        <item>Thẻ</item>
-        <item>Coupon</item>
-        <item>Gói đăng ký</item>
+        <item>@string/cards</item>
+        <item>@string/coupons</item>
+        <item>@string/subscription</item>
     </string-array>
+    <string-array name="dayNightTypes">
+        <item>@string/day</item>
+        <item>@string/night</item>
+        <item>@string/bysystem</item>
+    </string-array>
+    <string-array name="languageTypes">
+        <item>Tiếng Việt</item>
+        <item>English</item>
+    </string-array>
+    <string name="invalid_username">Tên không hợp lệ</string>
+    <string name="invalid_password">Mật khẩu không hợp lệ</string>
+    <string name="front">Mặt trước</string>
+    <string name="detail">Chi tiết</string>
+    <string name="share">Chia sẻ</string>
+    <string name="edit">Chỉnh sửa</string>
+    <string name="delete">Xoá</string>
+    <string name="pinned">Ghim</string>
+    <string name="getting_started_hello">Xin chào mọi người đến với My Cards, một app giúp bạn quản lý các loại thẻ, coupons hay các gói subscription. Có 3 loại thẻ mà mình chia ra:</string>
+    <string name="getting_started_card">- Thẻ thông thường: các loại thẻ bạn dùng hàng ngày như căn cước, thẻ sinh viên, bằng lái xe. Hoặc cũng có thể là hộ chiếu vaccine…</string>
+    <string name="getting_started_coupon">- Coupon: Các phiếu giảm giá / các loại vé tàu / vé xem phim…</string>
+    <string name="getting_started_sub">- Gói đăng ký: Là các cái online subscription bạn đki hàng tháng: Netflix, Spotify, Apple Music, EA Play…</string>
+    <string name="scancode">Quét mã</string>
+    <string name="copyToClipboard">Đã sao chép vào bộ nhớ đệm</string>
+    <string name="getting_started_name">Bắt đầu với My Cards</string>
+    <string name="no_show_again">KHÔNG HIỆN LẠI</string>
+    <string name="skip">BỎ QUA</string>
 </resources>

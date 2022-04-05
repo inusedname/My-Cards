@@ -13,7 +13,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="250dp"
+            android:layout_marginTop="200dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -23,60 +23,38 @@
                 android:layout_marginStart="@dimen/appbar_padding"
                 android:layout_marginEnd="@dimen/appbar_padding"
                 android:layout_marginBottom="25dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/greetingsTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/product_sans_regular"
-                        android:includeFontPadding="false"
-                        android:text="Chào buổi chiều, "
-                        android:textSize="22sp" />
-
-                    <TextView
-                        android:id="@+id/userNameTV"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/product_sans_bold"
-                        android:includeFontPadding="false"
-                        android:text="Quang Nguyễn"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:gravity="right"
-                    android:orientation="vertical">
+                    android:gravity="end"
+                    android:orientation="vertical"
+                    tools:ignore="UselessParent">
 
                     <TextView
                         android:id="@+id/timeTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+
                         android:fontFamily="@font/product_sans_bold"
                         android:includeFontPadding="false"
                         android:text="13:17"
                         android:textAlignment="textEnd"
-                        android:textSize="22sp" />
+                        android:textSize="35sp"
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:id="@+id/dateTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:includeFontPadding="false"
                         android:text="24/03/2023"
                         android:textAlignment="textEnd"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        tools:ignore="HardcodedText" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -92,10 +70,11 @@
                 android:divider="@drawable/divider_horizontal_menubar"
                 android:elevation="5dp"
                 android:orientation="horizontal"
-                android:showDividers="middle">
+                android:showDividers="middle"
+                android:baselineAligned="false">
 
                 <LinearLayout
-                    android:id="@+id/clearBT"
+                    android:id="@+id/qrScannerBT"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -107,14 +86,15 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_weight="10"
-                        app:srcCompat="@drawable/ic_baseline_delete_outline_24" />
+                        app:srcCompat="@drawable/ic_baseline_qr_code_scanner_24"
+                        tools:ignore="ContentDescription,NestedWeights" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
-                        android:text="Clear all"
+                        android:text="@string/scancode"
                         android:textAlignment="center"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -133,14 +113,15 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="10"
                         android:adjustViewBounds="false"
-                        app:srcCompat="@drawable/ic_baseline_add_24" />
+                        app:srcCompat="@drawable/ic_baseline_add_24"
+                        tools:ignore="ContentDescription,NestedWeights" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
-                        android:text="Add"
+                        android:text="@string/add_new"
                         android:textAlignment="center"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -159,14 +140,15 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="10"
                         android:adjustViewBounds="false"
-                        app:srcCompat="@drawable/ic_baseline_menu_24" />
+                        app:srcCompat="@drawable/ic_baseline_menu_24"
+                        tools:ignore="ContentDescription,NestedWeights" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
-                        android:text="All"
+                        android:text="@string/all"
                         android:textAlignment="center"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -185,86 +167,143 @@
                         android:layout_marginTop="10dp"
                         android:layout_weight="10"
                         android:adjustViewBounds="false"
-                        app:srcCompat="@drawable/ic_baseline_settings_24" />
+                        app:srcCompat="@drawable/ic_baseline_settings_24"
+                        tools:ignore="ContentDescription,NestedWeights" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingBottom="5dp"
-                        android:text="Setting"
+                        android:text="@string/setting"
                         android:textAlignment="center"
                         android:textSize="12sp" />
                 </LinearLayout>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/pinnedTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/product_sans_bold"
+                        android:paddingStart="@dimen/appbar_padding"
+                        android:paddingEnd="0dp"
+                        android:paddingTop="@dimen/home_title_padding"
+                        android:paddingBottom="@dimen/home_title_padding"
+                        android:text="@string/pinned" />
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="0dp"
+                        android:paddingTop="7dp"
+                        android:paddingBottom="5dp"
+                        app:srcCompat="@drawable/ic_baseline_push_pin_24"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/pinnedRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="@dimen/appbar_padding"
+                    android:paddingEnd="0dp"/>
+            </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/appbar_padding"
-                android:paddingTop="@dimen/home_title_padding"
-                android:paddingBottom="@dimen/home_title_padding"
-                android:text="@string/recent" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recentRV"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/appbar_padding"
-                android:orientation="horizontal" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="@dimen/appbar_padding"
+                android:paddingEnd="0dp"
                 android:paddingTop="@dimen/home_title_padding"
                 android:paddingBottom="@dimen/home_title_padding"
                 android:text="@string/cards" />
 
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <include layout="@layout/item_cardview_home_getstarted"
+                android:id="@+id/cardGettingStarted"/>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cardRV"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/appbar_padding"
+                android:paddingStart="@dimen/appbar_padding"
+                android:paddingEnd="0dp"
                 android:orientation="horizontal" />
+        </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/appbar_padding"
+                android:paddingEnd="0dp"
                 android:paddingTop="@dimen/home_title_padding"
                 android:paddingBottom="@dimen/home_title_padding"
                 android:text="@string/coupons" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/couponRV"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/appbar_padding"
-                android:layout_marginLeft="@dimen/appbar_padding"
-                android:orientation="horizontal" />
+                android:orientation="horizontal">
+                <include layout="@layout/item_cardview_home_getstarted"
+                    android:id="@+id/couponGettingStarted"/>
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/couponRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/appbar_padding"
+                    android:paddingEnd="0dp" />
+            </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/appbar_padding"
+                android:paddingEnd="0dp"
                 android:paddingTop="@dimen/home_title_padding"
                 android:paddingBottom="@dimen/home_title_padding"
                 android:text="@string/subscription" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/subRV"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/appbar_padding"
-                android:orientation="horizontal" />
+                android:orientation="horizontal"
+                android:paddingBottom="50dp">
 
+                <include
+                    android:id="@+id/subGettingStarted"
+                    layout="@layout/item_cardview_home_getstarted" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/subRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/appbar_padding"
+                    android:paddingEnd="0dp" />
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/findFAB"
+        android:id="@+id/searchFAB"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -280,5 +319,3 @@
         tools:ignore="ContentDescription,SpeakableTextPresentCheck"/>
 
 </RelativeLayout>
-<!--    android:backgroundTint="?attr/colorPrimary"-->
-<!--    app:tint="?attr/colorOnPrimary"-->

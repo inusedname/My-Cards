@@ -16,14 +16,15 @@
         <item name="android:fontFamily">@font/product_sans_regular</item>
         <item name="android:buttonStyle">@style/ButtonStyle</item>
         <!-- Customize your theme here. -->
-        <item name="android:colorBackground">@color/white</item>
-        <item name="android:colorControlNormal">@color/dark_color</item>
-        <item name="android:colorControlActivated">@color/dark_color</item>
-        <item name="android:colorControlHighlight">@color/dark_color</item>
+        <item name="colorAccent">?attr/colorPrimary</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:colorControlNormal">?attr/colorPrimary</item>
+        <item name="android:colorControlActivated">?attr/colorPrimary</item>
+        <item name="android:colorControlHighlight">?attr/colorPrimary</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
-
+<!--        <item name="searchViewStyle">@style/SearchViewStyle</item>-->
     </style>
     <style name="Theme.MyCards.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -43,5 +44,8 @@
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
         <item name="android:textColor">@android:color/holo_red_dark</item>
         <item name="android:fontFamily">@font/product_sans_bold</item>
+    </style>
+    <style name="SearchViewStyle">
+        <item name="layout"></item>
     </style>
 </resources>

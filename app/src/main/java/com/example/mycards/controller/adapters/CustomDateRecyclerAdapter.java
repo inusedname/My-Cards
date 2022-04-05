@@ -94,7 +94,6 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
                 String date = holder.myDatePicker.getDay() + "/" + (holder.myDatePicker.getMonth() + 1) + "/" + holder.myDatePicker.getYear();
                 holder.field.setText(date);
                 mItems.get(position).setKey(holder.label.getText().toString());
-//                TODO Sửa cái nên save lúc nào
                 mItems.get(position).setValue(holder.myDatePicker.getLocalDate());
                 Log.i("STATS", mItems.get(position).getValue().toString());
             }
