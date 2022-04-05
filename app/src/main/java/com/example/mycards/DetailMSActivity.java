@@ -4,20 +4,19 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,28 +29,37 @@ import com.example.mycards.model.MembershipBase;
 import com.example.mycards.model.Pair;
 import com.example.mycards.model.Subscription;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-@SuppressLint("SetTextI18n")
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class DetailMSActivity extends AppCompatActivity {
     ActivityResultLauncher<Intent> detailLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result ->{
-        switch (result.getResultCode())
+        if (result.getResultCode() == RESULT_OK)
         {
-            case CONSTANT.RESULT_EDIT_CARD:
-            case CONSTANT.RESULT_EDIT_COUPON:
-            case CONSTANT.RESULT_EDIT_SUB:
-                initAgain();
-                Toast.makeText(DetailMSActivity.this, "Sửa thành công", Toast.LENGTH_SHORT).show();
-                setResult(result.getResultCode(), this.result);
-                break;
+            List<Integer> flags = (List<Integer>) result.getData().getExtras().get("flags");
+            for (Integer i: flags)
+                switch (i)
+                {
+                    case CONSTANT.RESULT_EDIT_CARD:
+                    case CONSTANT.RESULT_EDIT_COUPON:
+                    case CONSTANT.RESULT_EDIT_SUB:
+                        this.mBase = (MembershipBase) result.getData().getExtras().get("data");
+                        initAgain();
+                        Toast.makeText(DetailMSActivity.this, "Sửa thành công", Toast.LENGTH_SHORT).show();
+                        this.flags.add(i);
+                        break;
+                }
         }
+
     });
     Intent result = new Intent();
-
+    List<Integer> flags = new ArrayList<>();
     MembershipBase mBase;
     int membershipType;
+    boolean deleted = false;
 
     ImageView frontIV, backIV;
     TextView shortNameTV, fullNameTV, idTV, issuerTV;
@@ -61,11 +69,44 @@ public class DetailMSActivity extends AppCompatActivity {
     List<Pair<String, LocalDate>> dateList;
     LinearLayout qrButton, shareButton, editButton, deleteButton;
     TextView exclusiveDateLabel, exclusiveDateValue;
+    SwitchCompat pinSwitch;
 
+    OnBackPressedCallback backPressedCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            if (pinSwitch.isChecked() != mBase.isPinned())
+            {
+                flags.add(CONSTANT.RESULT_PINNED_CHANGE);
+                flags.add(CONSTANT.RESULT_EDIT_CARD);
+                mBase.setPinned(!mBase.isPinned());
+                switch (membershipType)
+                {
+                    case CONSTANT.CARD:
+                        MembershipController.updateCard(DetailMSActivity.this, mBase);
+                        flags.add(CONSTANT.RESULT_EDIT_CARD);
+                        break;
+                    case CONSTANT.COUPON:
+                        MembershipController.updateCoupon(DetailMSActivity.this, mBase);
+                        flags.add(CONSTANT.RESULT_EDIT_COUPON);
+                        break;
+                    case CONSTANT.SUB:
+                        MembershipController.updateSub(DetailMSActivity.this, mBase);
+                        flags.add(CONSTANT.RESULT_EDIT_SUB);
+                        break;
+                }
+                result.putExtra("data", mBase);
+            }
+            result.putExtra("flags", (Serializable) flags);
+            setResult(RESULT_OK, result);
+            finish();
+        }
+    };
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_msactivity);
+        getOnBackPressedDispatcher().addCallback(this, backPressedCallback);
 
         //region Bindings
         frontIV = findViewById(R.id.frontIV);
@@ -82,18 +123,19 @@ public class DetailMSActivity extends AppCompatActivity {
         deleteButton = findViewById(R.id.deleteButton);
         exclusiveDateLabel = findViewById(R.id.exclusiveDateLabel);
         exclusiveDateValue = findViewById(R.id.exclusiveDateValue);
+        pinSwitch = findViewById(R.id.pinnedSwitch);
         //endregion
 
         //region Init
-        mBase = (MembershipBase) getIntent().getExtras().get("user");
+        mBase = (MembershipBase) getIntent().getExtras().get("data");
+        mBase.setActiveDate(LocalDateTime.now());
         if (mBase.getClass().equals(Card.class))
             membershipType = CONSTANT.CARD;
         else if (mBase.getClass().equals(Coupon.class))
             membershipType = CONSTANT.COUPON;
         else if (mBase.getClass().equals(Subscription.class))
             membershipType = CONSTANT.SUB;
-        if (mBase != null)
-        {
+        if (mBase != null) {
             if (mBase.getFrontImgDir() != null)
                 frontIV.setImageBitmap(BitmapFactory.decodeFile(mBase.getFrontImgDir()));
             else
@@ -108,22 +150,21 @@ public class DetailMSActivity extends AppCompatActivity {
             issuerTV.setText(mBase.getIssuer());
             stringList = mBase.getTextProperties();
             dateList = mBase.getDateProperties();
-            Log.i("STATS:", "Num of custom string: "+ stringList.size());
-            Log.i("STATS:", "Num of custom date: "+ dateList.size());
-        }
-        if (membershipType == CONSTANT.CARD)
-            findViewById(R.id.exclusiveDate).setVisibility(View.GONE);
-        else if (membershipType == CONSTANT.COUPON)
-        {
-            exclusiveDateLabel.setText(R.string.expDate);
-            LocalDate date = ((Coupon)mBase).getExpDate();
-            exclusiveDateValue.setText(date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear());
-        }
-        else if (membershipType == CONSTANT.SUB)
-        {
-            exclusiveDateLabel.setText(R.string.renewDate);
-            LocalDate date = ((Subscription)mBase).getRenewDate();
-            exclusiveDateValue.setText(date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear());
+            pinSwitch.setChecked(mBase.isPinned());
+            if (membershipType == CONSTANT.CARD)
+                findViewById(R.id.exclusiveDate).setVisibility(View.GONE);
+            else if (membershipType == CONSTANT.COUPON)
+            {
+                exclusiveDateLabel.setText(R.string.expDate);
+                LocalDate date = ((Coupon)mBase).getExpDate();
+                exclusiveDateValue.setText(date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear());
+            }
+            else if (membershipType == CONSTANT.SUB)
+            {
+                exclusiveDateLabel.setText(R.string.renewDate);
+                LocalDate date = ((Subscription)mBase).getRenewDate();
+                exclusiveDateValue.setText(date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear());
+            }
         }
         //endregion
 
@@ -150,7 +191,6 @@ public class DetailMSActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 deleteMembership();
-                                finish();
                             }
 
                         })
@@ -193,30 +233,41 @@ public class DetailMSActivity extends AppCompatActivity {
         detailLauncher.launch(intent);
     }
     void deleteMembership() {
-        Intent result = new Intent();
         switch (membershipType)
         {
             case CONSTANT.CARD:
-                setResult(CONSTANT.RESULT_DEL_CARD, result);
+                flags.clear();
+                flags.add(CONSTANT.RESULT_DEL_CARD);
                 break;
             case CONSTANT.COUPON:
-                setResult(CONSTANT.RESULT_DEL_COUPON, result);
+                flags.clear();
+                flags.add(CONSTANT.RESULT_DEL_COUPON);
                 break;
             case CONSTANT.SUB:
-                setResult(CONSTANT.RESULT_DEL_SUB, result);
+                flags.clear();
+                flags.add(CONSTANT.RESULT_DEL_SUB);
                 break;
         }
+        deleted = true;
         MembershipController.remove(DetailMSActivity.this, mBase.systemID, membershipType);
+        result.putExtra("flags", (Serializable) flags);
+        setResult(RESULT_OK, result);
+        finish();
     }
+    @SuppressLint("SetTextI18n")
     void initAgain() {
         if (mBase != null)
         {
-            if (mBase.getFrontImgDir() != null)
+            if (mBase.getFrontImgDir() != null) {
                 frontIV.setImageBitmap(BitmapFactory.decodeFile(mBase.getFrontImgDir()));
+                frontIV.setVisibility(View.VISIBLE);
+            }
             else
                 frontIV.setVisibility(View.GONE);
-            if (mBase.getBackImgDir() != null)
+            if (mBase.getBackImgDir() != null) {
                 backIV.setImageBitmap(BitmapFactory.decodeFile(mBase.getBackImgDir()));
+                backIV.setVisibility(View.VISIBLE);
+            }
             else
                 backIV.setVisibility(View.GONE);
             shortNameTV.setText(mBase.getShortName());
@@ -225,8 +276,8 @@ public class DetailMSActivity extends AppCompatActivity {
             issuerTV.setText(mBase.getIssuer());
             stringList = mBase.getTextProperties();
             dateList = mBase.getDateProperties();
-            Log.i("STATS:", "Num of custom string: "+ stringList.size());
-            Log.i("STATS:", "Num of custom date: "+ dateList.size());
+            customStringRA.refreshList(stringList);
+            customDateRA.refreshList(dateList, true);
         }
         if (membershipType == CONSTANT.CARD)
             findViewById(R.id.exclusiveDate).setVisibility(View.GONE);

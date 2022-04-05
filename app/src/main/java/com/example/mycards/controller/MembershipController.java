@@ -33,6 +33,15 @@ public class MembershipController {
     public static List<Subscription> getSubscriptionList(Context context) {
         return MembershipDB.getInstance(context).cardDAO().getSubscriptionList();
     }
+    public static List<Card> getPinnedCardList(Context context){
+        return MembershipDB.getInstance(context).cardDAO().getPinnedCard();
+    }
+    public static List<Card> getPinnedCouponList(Context context){
+        return MembershipDB.getInstance(context).cardDAO().getPinnedCoupon();
+    }
+    public static List<Card> getPinnedSubList(Context context){
+        return MembershipDB.getInstance(context).cardDAO().getPinnedSubscription();
+    }
     public static void removeAll(Context context) {
         MembershipDB.getInstance(context).cardDAO().deleteAllCard();
         MembershipDB.getInstance(context).cardDAO().deleteAllCoupon();

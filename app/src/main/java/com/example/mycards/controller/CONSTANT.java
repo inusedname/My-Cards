@@ -16,4 +16,5 @@ public class CONSTANT {
     public static final int RESULT_EDIT_SUB = 108;
     public static final int RESULT_FRONT_PICTURE_CAPTURED = 200;
     public static final int RESULT_BACK_PICTURE_CAPTURED = 201;
+    public static final int RESULT_PINNED_CHANGE = 202;
 }

@@ -2,12 +2,9 @@ package com.example.mycards.controller.util;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-
-import androidx.annotation.RequiresApi;
 
 import java.time.LocalDate;
 
@@ -30,10 +27,8 @@ public abstract class MyDatePicker {
         this.day = day;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressWarnings("Convert2Lambda")
-    public MyDatePicker(View view, int buttonID)
-    {
+    public MyDatePicker(View view, int buttonID) {
         setTextID(view, buttonID);
         setListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -47,10 +42,9 @@ public abstract class MyDatePicker {
             }
         };
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     @SuppressWarnings({"Convert2Lambda", "UnusedDeclaration"})
-    public MyDatePicker(View view, int buttonID, LocalDate date)
-    {
+    public MyDatePicker(View view, int buttonID, LocalDate date) {
         setTextID(view, buttonID, date);
         setListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -65,15 +59,17 @@ public abstract class MyDatePicker {
         };
     }
 
-    public void overrideOnDateSet(DatePickerDialog.OnDateSetListener setListener)
-    {
+    public void overrideOnDateSet(DatePickerDialog.OnDateSetListener setListener) {
         this.setListener = setListener;
     }
     public void showTheDialog(View view){
-        DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_DeviceDefault_Dialog_MinWidth, setListener, year, month-1, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_DeviceDefault_Dialog, setListener, year, month-1, day);
+        int color = UIConfig.getResAttr(view.getContext(), androidx.appcompat.R.attr.colorPrimary).data;
         try
         {
             datePickerDialog.show();
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_POSITIVE).setTextColor(color);
+            datePickerDialog.getButton(DatePickerDialog.BUTTON_NEGATIVE).setTextColor(color);
         }
         catch(Exception e)
         {
@@ -82,20 +78,16 @@ public abstract class MyDatePicker {
 
 
     }
+
     @SuppressLint("SetTextI18n")
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setTextID(View view, int id, LocalDate date)
-    {
+    public void setTextID(View view, int id, LocalDate date) {
         tv = view.findViewById(id);
         System.out.println("Found TextView!");
         year = date.getYear();
         month = date.getMonthValue();
         day = date.getDayOfMonth();
-        tv.setText(day + "/" + (month + 1) + "/" + year);
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public void setTextID(View view, int id)
-    {
+    public void setTextID(View view, int id) {
         tv = view.findViewById(id);
         System.out.println("Found TextView!");
         LocalDate date = LocalDate.now();
@@ -103,19 +95,15 @@ public abstract class MyDatePicker {
         month = date.getMonthValue();
         day = date.getDayOfMonth();
     }
-
     public int getYear() {
         return year;
     }
-
     public int getMonth() {
         return month;
     }
-
     public int getDay() {
         return day;
     }
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public LocalDate getLocalDate()
     {
         return LocalDate.of(year,month + 1,day);

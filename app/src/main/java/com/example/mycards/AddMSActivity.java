@@ -28,7 +28,7 @@ import com.example.mycards.controller.CONSTANT;
 import com.example.mycards.controller.MembershipController;
 import com.example.mycards.controller.adapters.CustomDateRecyclerAdapter;
 import com.example.mycards.controller.adapters.CustomStringRecyclerAdapter;
-import com.example.mycards.controller.adapters.MyListAdapter;
+import com.example.mycards.controller.adapters.SpinnerArrayAdapter;
 import com.example.mycards.controller.exceptions.StringInputFail;
 import com.example.mycards.controller.util.MyDatePicker;
 import com.example.mycards.controller.util.MyQRReader;
@@ -42,7 +42,10 @@ import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.journeyapps.barcodescanner.ScanContract;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings({"FieldCanBeLocal"})
@@ -72,7 +75,7 @@ public class AddMSActivity extends AppCompatActivity{
     private Spinner memTypesSpinner;
     private CustomStringRecyclerAdapter stringAdapter;
     private CustomDateRecyclerAdapter dateAdapter;
-    private MyListAdapter memTypesAdapter;
+    private SpinnerArrayAdapter memTypesAdapter;
 
     boolean isOK1, isOK2,isOK3, isOK4;
     private List<Pair<String,String>> stringList;
@@ -121,7 +124,7 @@ public class AddMSActivity extends AppCompatActivity{
         //endregion
 
         //region Init Adapters
-        memTypesAdapter = new MyListAdapter(this, R.layout.item_spinner, getResources().getStringArray(R.array.membershipTypes));
+        memTypesAdapter = new SpinnerArrayAdapter(this, R.layout.item_spinner, getResources().getStringArray(R.array.membershipTypes));
         memTypesSpinner.setAdapter(memTypesAdapter);
 
         stringAdapter = new CustomStringRecyclerAdapter();
@@ -140,10 +143,10 @@ public class AddMSActivity extends AppCompatActivity{
         //endregion
 
         //region Initials
-        error_sn.setText("");
-        error_fn.setText("");
-        error_id.setText("");
-        error_is.setText("");
+        error_sn.setText(R.string.required);
+        error_fn.setText(R.string.required);
+        error_id.setText(R.string.required);
+        error_is.setText(R.string.required);
         stringAdapter.updateList(new Pair<>("",""));
         dateAdapter.updateList(new Pair<>("",null));
         chooseDateEt.setInputType(InputType.TYPE_NULL);
@@ -336,20 +339,24 @@ public class AddMSActivity extends AppCompatActivity{
         cleanEmptyList();
         MembershipBase membershipData;
         Intent result = new Intent();
+        List<Integer> flags = new ArrayList<>();
         switch (membershipType) {
             case 1:
                 membershipData = new Coupon(frontImgPath, backImgPath, shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringList, dateList, exclusiveDate);
-                setResult(CONSTANT.RESULT_ADD_COUPON, result);
+                flags.add(CONSTANT.RESULT_ADD_COUPON);
                 break;
             case 2:
                 membershipData = new Subscription(frontImgPath, backImgPath, shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringList, dateList, exclusiveDate);
-                setResult(CONSTANT.RESULT_ADD_SUB, result);
+                flags.add(CONSTANT.RESULT_ADD_SUB);
                 break;
             default:
                 membershipData = new Card(frontImgPath, backImgPath, shortName.getText().toString(),fullName.getText().toString(), id.getText().toString(), issuer.getText().toString(), stringList, dateList);
-                setResult(CONSTANT.RESULT_ADD_CARD, result);
+                flags.add(CONSTANT.RESULT_ADD_CARD);
                 break;
         }
+        result.putExtra("flags", (Serializable) flags);
+        setResult(RESULT_OK, result);
+        membershipData.setActiveDate(LocalDateTime.now());
         MembershipController.addMembership(AddMSActivity.this, membershipData);
     }
 }

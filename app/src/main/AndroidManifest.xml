@@ -12,14 +12,18 @@
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/my_cards"
         android:label="@string/app_name"
+        android:icon="@mipmap/my_cards"
         android:roundIcon="@mipmap/my_cards_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyCards">
         <activity
-            android:name=".ShowQRActivity"
+            android:name=".QRScannerActivity"
             android:exported="false" />
+        <activity
+            android:name=".ShowQRActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".EditMSActivity"
             android:exported="false"

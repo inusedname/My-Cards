@@ -2,6 +2,7 @@ package com.example.mycards;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,6 +34,15 @@ public class ShowQRActivity extends AppCompatActivity {
         code39Bitmap = MyQRGenerator.generateQRCode(id, 800, 100, BarcodeFormat.CODE_39);
         code128Bitmap = MyQRGenerator.generateQRCode(id, 800, 100, BarcodeFormat.CODE_128);
         codeEAN13Bitmap = MyQRGenerator.generateQRCode(id, 800, 100, BarcodeFormat.EAN_13);
+
+        if (qrCodeBitmap == null)
+            qrCodeIV.setVisibility(View.GONE);
+        if (code39Bitmap == null)
+            code39IV.setVisibility(View.GONE);
+        if (code128Bitmap == null)
+            code128IV.setVisibility(View.GONE);
+        if (codeEAN13Bitmap == null)
+            codeEANIV.setVisibility(View.GONE);
 
         qrCodeIV.setImageBitmap(qrCodeBitmap);
         code39IV.setImageBitmap(code39Bitmap);

@@ -19,14 +19,12 @@ public class DateStringViewRecyclerAdapter extends RecyclerView.Adapter<DateStri
 
     List<Pair<String, String>> mItems = new ArrayList<>();
 
-    public DateStringViewRecyclerAdapter(List<Pair<String, String>> mItems)
-    {
+    public DateStringViewRecyclerAdapter(List<Pair<String, String>> mItems) {
         if (mItems == null || mItems.size() == 0)
             return;
         this.mItems.addAll(mItems);
     }
-    public DateStringViewRecyclerAdapter(List<Pair<String, LocalDate>> mItems, boolean isStringLocalList)
-    {
+    public DateStringViewRecyclerAdapter(List<Pair<String, LocalDate>> mItems, boolean isStringLocalList) {
         if (mItems == null || mItems.size() == 0)
             return;
         for (int i = 0; i < mItems.size(); i++)
@@ -36,6 +34,25 @@ public class DateStringViewRecyclerAdapter extends RecyclerView.Adapter<DateStri
             String value = date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear();
             this.mItems.add(new Pair<>(key, value));
         }
+    }
+    public void refreshList(List<Pair<String, String>> mItems) {
+        if (mItems == null || mItems.size() == 0)
+            return;
+        this.mItems = mItems;
+        notifyDataSetChanged();
+    }
+    public void refreshList(List<Pair<String, LocalDate>> mItems, boolean isStringLocalList){
+        if (mItems == null || mItems.size() == 0)
+            return;
+        this.mItems.clear();
+        for (int i = 0; i < mItems.size(); i++)
+        {
+            LocalDate date = mItems.get(i).getValue();
+            String key = mItems.get(i).getKey();
+            String value = date.getDayOfMonth() + "/" + date.getMonthValue() + "/" + date.getYear();
+            this.mItems.add(new Pair<>(key, value));
+        }
+        notifyDataSetChanged();
     }
     @NonNull
     @Override

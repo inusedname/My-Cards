@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey;
 import java.io.File;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,24 @@ public class MembershipBase implements Serializable {
     protected String backImgDir = null;
     protected List<Pair<String,String>> textProperties = new ArrayList<>();
     protected List<Pair<String, LocalDate>> dateProperties = new ArrayList<>();
+    protected boolean isPinned = false;
+    protected LocalDateTime activeDate;
+
+    public boolean isPinned() {
+        return isPinned;
+    }
+
+    public void setPinned(boolean pinned) {
+        isPinned = pinned;
+    }
+
+    public LocalDateTime getActiveDate() {
+        return activeDate;
+    }
+
+    public void setActiveDate(LocalDateTime activeDate) {
+        this.activeDate = activeDate;
+    }
 
     public String getShortName() {
         return shortName;
@@ -42,15 +61,13 @@ public class MembershipBase implements Serializable {
     public void setIssuer(String issuer) {
         this.issuer = issuer;
     }
-    public void setFrontImgDir(String dir)
-    {
-        if (this.frontImgDir != null) {
+    public void setFrontImgDir(String dir) {
+        if (this.frontImgDir != null && !this.frontImgDir.equals(dir)) {
             new File(frontImgDir).delete();
         }
         frontImgDir = dir;
     }
-    public void clearImage()
-    {
+    public void clearImage() {
         if (this.frontImgDir != null) {
             new File(frontImgDir).delete();
         }
@@ -61,9 +78,8 @@ public class MembershipBase implements Serializable {
     public String getFrontImgDir() {
         return frontImgDir;
     }
-    public void setBackImgDir(String dir)
-    {
-        if (this.backImgDir != null) {
+    public void setBackImgDir(String dir) {
+        if (this.backImgDir != null && !this.backImgDir.equals(dir)) {
             new File(backImgDir).delete();
         }
         backImgDir = dir;

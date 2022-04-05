@@ -1,7 +1,8 @@
 package com.example.mycards.controller.adapters;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,7 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
         this.mItems.add(pair);
         notifyDataSetChanged();
     }
-    public void updateList(List<Pair<String, String>> pair)
-    {
+    public void updateList(List<Pair<String, String>> pair) {
         this.mItems = pair;
         notifyDataSetChanged();
     }
@@ -51,22 +51,28 @@ public class CustomStringRecyclerAdapter extends RecyclerView.Adapter<CustomStri
         holder.field.setText(field);
 
 
-        holder.field.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b) {
-                    mItems.get(position).setValue(holder.field.getText().toString());
-                    Log.i("STATS", mItems.get(position).getValue());
-                }
-            }
-        });
         holder.label.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (!b) {
                     mItems.get(position).setKey(holder.label.getText().toString());
-                    Log.i("STATS", mItems.get(position).getKey());
                 }
+            }
+        });
+        holder.field.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                mItems.get(position).setValue(holder.field.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 

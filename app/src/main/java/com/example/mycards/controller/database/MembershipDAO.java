@@ -50,6 +50,15 @@ public interface MembershipDAO {
     @Query("DELETE FROM subscriptionEntity WHERE systemID=:sysID")
     void deleteSub(int sysID);
 
+    @Query("SELECT * FROM cardEntity WHERE isPinned = 1")
+    List<Card> getPinnedCard();
+
+    @Query("SELECT * FROM couponEntity WHERE isPinned = 1")
+    List<Card> getPinnedCoupon();
+
+    @Query("SELECT * FROM subscriptionEntity WHERE isPinned = 1")
+    List<Card> getPinnedSubscription();
+
     @Update
     void updateCard(Card card);
 
