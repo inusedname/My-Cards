@@ -134,7 +134,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:text="Hiển thị giới thiệu"
+                        android:text="@string/showHello"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="@dimen/user_item_textSize" />
 

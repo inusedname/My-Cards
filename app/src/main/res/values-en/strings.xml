@@ -35,7 +35,7 @@
     <string name="label">Label</string>
     <string name="removeAll">Delete</string>
     <string name="all">All</string>
-    <string name="user_message">There will be bugs out there that I haven\'t discorvered yet. I will really appreciate if you report to me through Google Form and, please let me know which features you want to have in the nearest future!</string>
+    <string name="user_message">There will be bugs that I haven\'t discorvered yet. I will really appreciate if you report to me through Google Form and please let me know which features you want to have in the nearest future!</string>
     <string name="canOnlyAlphaNum">Can only in words and digits.</string>
     <string name="cantLongerThan12">Can\'t be longer than 12 characters</string>
     <string name="cantLongerThan25">Can\'t be longer than 25 characters</string>
@@ -47,8 +47,8 @@
     <string name="cards">Cards</string>
     <string name="dark_mode">Theme</string>
     <string name="language">Language</string>
-    <string name="day">Dark</string>
-    <string name="night">Light</string>
+    <string name="day">Light</string>
+    <string name="night">Dark</string>
     <string name="bysystem">By system</string>
     <string name="front">Front</string>
     <string name="detail">Detail</string>
@@ -65,4 +65,5 @@
     <string name="getting_started_name">Getting start with My Cards</string>
     <string name="no_show_again">DON\'T SHOW AGAIN</string>
     <string name="skip">HIDE</string>
+    <string name="showHello">Show getting start dialog</string>
 </resources>

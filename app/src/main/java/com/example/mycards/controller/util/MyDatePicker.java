@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 
+import androidx.core.content.ContextCompat;
+
+import com.example.mycards.R;
+
 import java.time.LocalDate;
 
 public abstract class MyDatePicker {
@@ -34,9 +38,9 @@ public abstract class MyDatePicker {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 day = datePicker.getDayOfMonth();
-                month = datePicker.getMonth();
+                month = datePicker.getMonth() + 1;
                 year = datePicker.getYear();
-                String date = day + "/" + (month + 1) + "/" + year;
+                String date = day + "/" + month + "/" + year;
                 tv.setText(date);
                 whatDoYouWantToDoAfterDateSet();
             }
@@ -50,9 +54,9 @@ public abstract class MyDatePicker {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 day = datePicker.getDayOfMonth();
-                month = datePicker.getMonth();
+                month = datePicker.getMonth() + 1;
                 year = datePicker.getYear();
-                String date = day + "/" + (month + 1) + "/" + year;
+                String date = day + "/" + month + "/" + year;
                 tv.setText(date);
                 whatDoYouWantToDoAfterDateSet();
             }
@@ -63,8 +67,8 @@ public abstract class MyDatePicker {
         this.setListener = setListener;
     }
     public void showTheDialog(View view){
-        DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_DeviceDefault_Dialog, setListener, year, month-1, day);
-        int color = UIConfig.getResAttr(view.getContext(), androidx.appcompat.R.attr.colorPrimary).data;
+        DatePickerDialog datePickerDialog = new DatePickerDialog(view.getContext(), android.R.style.Theme_DeviceDefault_Dialog, setListener, year, month - 1, day);
+        int color = ContextCompat.getColor(view.getContext(), R.color.light_color);
         try
         {
             datePickerDialog.show();
@@ -75,21 +79,19 @@ public abstract class MyDatePicker {
         {
             System.out.println("Can not display." + e);
         }
-
-
     }
 
     @SuppressLint("SetTextI18n")
     public void setTextID(View view, int id, LocalDate date) {
         tv = view.findViewById(id);
-        System.out.println("Found TextView!");
+        if (date == null)
+            date = LocalDate.now();
         year = date.getYear();
         month = date.getMonthValue();
         day = date.getDayOfMonth();
     }
     public void setTextID(View view, int id) {
         tv = view.findViewById(id);
-        System.out.println("Found TextView!");
         LocalDate date = LocalDate.now();
         year = date.getYear();
         month = date.getMonthValue();
@@ -106,7 +108,7 @@ public abstract class MyDatePicker {
     }
     public LocalDate getLocalDate()
     {
-        return LocalDate.of(year,month + 1,day);
+        return LocalDate.of(year,month,day);
     }
 
     public abstract void whatDoYouWantToDoAfterDateSet();

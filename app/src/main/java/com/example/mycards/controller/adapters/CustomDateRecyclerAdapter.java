@@ -34,6 +34,7 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
         this.mItems.add(pair);
         notifyDataSetChanged();
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void updateList(List<Pair<String, LocalDate>> pair) {
         this.mItems = pair;
         notifyDataSetChanged();
@@ -60,7 +61,7 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
         if (field != null)
         {
             holder.label.setText(label);
-            String date = field.getDayOfMonth() + "/" + (field.getMonthValue() + 1) + "/" + field.getYear();
+            String date = field.getDayOfMonth() + "/" + field.getMonthValue() + "/" + field.getYear();
             holder.field.setText(date);
             holder.myDatePicker.setTextID(holder.itemView,holder.field.getId(), field);
         }
@@ -89,9 +90,9 @@ public class CustomDateRecyclerAdapter extends RecyclerView.Adapter<CustomDateRe
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 holder.myDatePicker.setDay(datePicker.getDayOfMonth());
-                holder.myDatePicker.setMonth(datePicker.getMonth());
+                holder.myDatePicker.setMonth(datePicker.getMonth() + 1);
                 holder.myDatePicker.setYear(datePicker.getYear());
-                String date = holder.myDatePicker.getDay() + "/" + (holder.myDatePicker.getMonth() + 1) + "/" + holder.myDatePicker.getYear();
+                String date = holder.myDatePicker.getDay() + "/" + holder.myDatePicker.getMonth() + "/" + holder.myDatePicker.getYear();
                 holder.field.setText(date);
                 mItems.get(position).setKey(holder.label.getText().toString());
                 mItems.get(position).setValue(holder.myDatePicker.getLocalDate());

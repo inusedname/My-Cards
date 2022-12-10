@@ -179,7 +179,7 @@ public class AddMSActivity extends AppCompatActivity{
             }
         });
         chooseDateBt.setOnClickListener(view -> {
-            MyDatePicker myDatePicker = new MyDatePicker(view, chooseDateBt.getId()) {
+            MyDatePicker myDatePicker = new MyDatePicker(view, chooseDateBt.getId(), exclusiveDate) {
                 @Override
                 public void whatDoYouWantToDoAfterDateSet() {
                     exclusiveDate = getLocalDate();

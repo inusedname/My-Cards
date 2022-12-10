@@ -90,4 +90,5 @@
     <string name="getting_started_name">Bắt đầu với My Cards</string>
     <string name="no_show_again">KHÔNG HIỆN LẠI</string>
     <string name="skip">BỎ QUA</string>
+    <string name="showHello">Hiển thị giới thiệu</string>
 </resources>

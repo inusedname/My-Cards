@@ -1,5 +1,6 @@
 package com.example.mycards.controller.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,12 +36,14 @@ public class DateStringViewRecyclerAdapter extends RecyclerView.Adapter<DateStri
             this.mItems.add(new Pair<>(key, value));
         }
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void refreshList(List<Pair<String, String>> mItems) {
         if (mItems == null || mItems.size() == 0)
             return;
         this.mItems = mItems;
         notifyDataSetChanged();
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void refreshList(List<Pair<String, LocalDate>> mItems, boolean isStringLocalList){
         if (mItems == null || mItems.size() == 0)
             return;
@@ -73,8 +76,7 @@ public class DateStringViewRecyclerAdapter extends RecyclerView.Adapter<DateStri
         return mItems.size();
     }
 
-    static class DataViewHolder extends RecyclerView.ViewHolder
-    {
+    static class DataViewHolder extends RecyclerView.ViewHolder {
         TextView label, value;
         public DataViewHolder(@NonNull View itemView) {
             super(itemView);
